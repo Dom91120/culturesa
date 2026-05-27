@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/users.php  (admin/gestionnaire)
+//  CultuRésa — API /api/users.php  (admin/gestionnaire)
 //  GET  ?action=list
 //  POST ?action=create
 //  POST ?action=update

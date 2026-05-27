@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Helpers RGPD
+//  CultuRésa — Helpers RGPD
 //
 //  Fonctions partagées entre les endpoints API (api/*) et le flow
 //  de confirmation par e-mail (confirm.php). Vit dans /includes/
@@ -74,7 +74,7 @@ function rgpd_build_export(int $userId): ?array {
         'export_meta' => [
             'generated_at'   => date('c'),
             'rgpd_article'   => 'Article 15 (droit d\'accès) / 20 (portabilité)',
-            'application'    => 'CultuRézo',
+            'application'    => 'CultuRésa',
         ],
         'profile' => $user,
         'bookings' => $bookings,

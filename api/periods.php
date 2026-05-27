@@ -1,5 +1,5 @@
 <?php
-// CultuRézo — API /api/periods.php
+// CultuRésa — API /api/periods.php
 require_once __DIR__ . '/../includes/api.php';
 require_once __DIR__ . '/../includes/holidays.php';
 require_once __DIR__ . '/../includes/exercice.php';

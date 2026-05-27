@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/auth.php
+//  CultuRésa — API /api/auth.php
 //  POST /api/auth.php?action=login
 //  POST /api/auth.php?action=register
 //  POST /api/auth.php?action=logout

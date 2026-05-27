@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Confirmation d'adresse e-mail avec CAPTCHA image
+//  CultuRésa — Confirmation d'adresse e-mail avec CAPTCHA image
 //  GET  /confirm.php?token=<token>  → affiche le CAPTCHA
 //  POST /confirm.php                → vérifie CAPTCHA + active
 // ============================================================
@@ -99,7 +99,7 @@ $captchaSeed = bin2hex(random_bytes(8));
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><?= $state === 'success' ? 'Compte activé' : ($state === 'captcha' ? 'Vérification' : 'Lien invalide') ?> — CultuRézo</title>
+  <title><?= $state === 'success' ? 'Compte activé' : ($state === 'captcha' ? 'Vérification' : 'Lien invalide') ?> — CultuRésa</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -188,7 +188,7 @@ $captchaSeed = bin2hex(random_bytes(8));
 <body>
   <div class="wrap">
     <div class="card">
-      <div class="logo">CultuRézo</div>
+      <div class="logo">CultuRésa</div>
 
       <?php if ($state === 'success'): ?>
         <?php if ($confirmType === 'delete'): ?>

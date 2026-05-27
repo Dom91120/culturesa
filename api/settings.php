@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/settings.php  (admin uniquement)
+//  CultuRésa — API /api/settings.php  (admin uniquement)
 //  GET  ?action=get          → retourne toutes les clés de config
 //  POST ?action=save         → enregistre les valeurs de config
 //  POST ?action=test_mail    → envoie un e-mail de test
@@ -104,9 +104,9 @@ if ($action === 'test_mail') {
         json_response(['ok' => false, 'error' => 'Adresse e-mail de destination invalide'], 400);
     }
 
-    $body = '<p>Ceci est un e-mail de test envoyé depuis la configuration de <strong>CultuRézo</strong>.</p>';
+    $body = '<p>Ceci est un e-mail de test envoyé depuis la configuration de <strong>CultuRésa</strong>.</p>';
     try {
-        send_mail($to, '[CultuRézo] E-mail de test', $body);
+        send_mail($to, '[CultuRésa] E-mail de test', $body);
         json_response(['ok' => true, 'message' => "E-mail de test envoyé à $to"]);
     } catch (\Exception $e) {
         json_response(['ok' => false, 'error' => $e->getMessage()], 500);

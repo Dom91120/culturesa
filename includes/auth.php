@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Authentification & Sessions
+//  CultuRésa — Authentification & Sessions
 // ============================================================
 
 require_once __DIR__ . '/db.php';
@@ -293,21 +293,21 @@ class Auth {
         $kickerEsc = htmlspecialchars(strtoupper($kicker));
         return '<!DOCTYPE html><html lang="fr"><head>'
             . '<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-            . '<title>CultuRézo</title></head>'
+            . '<title>CultuRésa</title></head>'
             . '<body style="margin:0;padding:0;background:#f3f5f8;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,Helvetica,Arial,sans-serif;color:#1a1f2e">'
             . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f3f5f8;padding:36px 16px">'
             . '<tr><td align="center">'
             . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border-radius:14px;max-width:520px;width:100%;box-shadow:0 1px 2px rgba(15,17,23,.04),0 6px 24px rgba(15,17,23,.08);overflow:hidden">'
             // Header
             . '<tr><td style="padding:28px 36px 22px;border-bottom:1px solid #eef0f3">'
-            . '<div style="font-size:1.45rem;font-weight:600;letter-spacing:-.015em;color:#1a1f2e;line-height:1">Cultu<span style="color:#6dceaa">Rézo</span></div>'
+            . '<div style="font-size:1.45rem;font-weight:600;letter-spacing:-.015em;color:#1a1f2e;line-height:1">Cultu<span style="color:#6dceaa">Résa</span></div>'
             . '<div style="font-size:.66rem;color:#9aa0b4;margin-top:6px;letter-spacing:.12em;font-weight:600">' . $kickerEsc . '</div>'
             . '</td></tr>'
             // Body
             . '<tr><td style="padding:30px 36px 32px;font-size:.94rem;line-height:1.65;color:#1a1f2e">' . $bodyHtml . '</td></tr>'
             // Footer
             . '<tr><td style="padding:18px 36px;background:#f9fafb;border-top:1px solid #eef0f3;font-size:.7rem;color:#9aa0b4;text-align:center;line-height:1.55">'
-            . 'CultuRézo &middot; Système de réservation<br>'
+            . 'CultuRésa &middot; Système de réservation<br>'
             . '<span style="color:#bcc0cf">Cet e-mail est automatique, merci de ne pas y répondre.</span>'
             . '</td></tr>'
             . '</table>'
@@ -354,18 +354,18 @@ class Auth {
     /** Envoie l'email de confirmation d'inscription */
     private static function sendConfirmationEmail(string $email, string $name, string $token): void {
         $confirmUrl = self::getAppUrl() . '/confirm.php?token=' . urlencode($token);
-        $subject    = 'Confirmez votre inscription — CultuRézo';
+        $subject    = 'Confirmez votre inscription — CultuRésa';
         $body = self::emailLayout(
             'Confirmation d\'inscription',
             self::emailGreeting($name)
-            . '<p style="margin:0 0 12px">Merci de votre inscription sur <strong>CultuRézo</strong>. Pour activer votre compte, cliquez sur le bouton ci-dessous.</p>'
+            . '<p style="margin:0 0 12px">Merci de votre inscription sur <strong>CultuRésa</strong>. Pour activer votre compte, cliquez sur le bouton ci-dessous.</p>'
             . self::emailButton($confirmUrl, '✓  Confirmer mon adresse')
-            . '<p style="margin:0;font-size:.82rem;color:#6b7280">Ce lien est valable <strong>24 heures</strong>. Si vous n\'avez pas créé de compte sur CultuRézo, ignorez simplement ce message.</p>'
+            . '<p style="margin:0;font-size:.82rem;color:#6b7280">Ce lien est valable <strong>24 heures</strong>. Si vous n\'avez pas créé de compte sur CultuRésa, ignorez simplement ce message.</p>'
         );
         try {
             send_mail($email, $subject, $body);
         } catch (\Exception $e) {
-            error_log('CultuRézo mailer error (confirm): ' . $e->getMessage());
+            error_log('CultuRésa mailer error (confirm): ' . $e->getMessage());
         }
     }
 
@@ -436,7 +436,7 @@ class Auth {
     /** Envoie le lien de confirmation au nouvel email */
     private static function sendEmailChangeRequestEmail(string $email, string $name, string $token): void {
         $confirmUrl = self::getAppUrl() . '/confirm.php?type=email_change&token=' . urlencode($token);
-        $subject    = 'Confirmez votre nouvelle adresse e-mail — CultuRézo';
+        $subject    = 'Confirmez votre nouvelle adresse e-mail — CultuRésa';
         $body = self::emailLayout(
             'Changement d\'adresse e-mail',
             self::emailGreeting($name)
@@ -447,13 +447,13 @@ class Auth {
         try {
             send_mail($email, $subject, $body);
         } catch (\Exception $e) {
-            error_log('CultuRézo mailer error (email change request): ' . $e->getMessage());
+            error_log('CultuRésa mailer error (email change request): ' . $e->getMessage());
         }
     }
 
     /** Envoie une alerte à l'ancienne adresse lors d'un changement d'email */
     private static function sendEmailChangeAlertEmail(string $email, string $name, string $newEmail): void {
-        $subject = 'Alerte : demande de changement d\'adresse e-mail — CultuRézo';
+        $subject = 'Alerte : demande de changement d\'adresse e-mail — CultuRésa';
         $body = self::emailLayout(
             'Alerte de sécurité',
             self::emailGreeting($name)
@@ -467,7 +467,7 @@ class Auth {
         try {
             send_mail($email, $subject, $body);
         } catch (\Exception $e) {
-            error_log('CultuRézo mailer error (email change alert): ' . $e->getMessage());
+            error_log('CultuRésa mailer error (email change alert): ' . $e->getMessage());
         }
     }
 
@@ -559,11 +559,11 @@ class Auth {
     public static function sendDeletionNoticeEmail(string $email, string $name, int $graceDays = 30): void {
         $appUrl  = self::getAppUrl();
         $days    = (int)$graceDays;
-        $subject = 'Votre compte CultuRézo sera supprimé pour inactivité dans ' . $days . ' jours';
+        $subject = 'Votre compte CultuRésa sera supprimé pour inactivité dans ' . $days . ' jours';
         $body = self::emailLayout(
             'Préavis d\'inactivité',
             self::emailGreeting($name)
-            . '<p style="margin:0 0 12px">Nous constatons que vous ne vous êtes plus connecté à votre compte <strong>CultuRézo</strong> depuis longtemps.</p>'
+            . '<p style="margin:0 0 12px">Nous constatons que vous ne vous êtes plus connecté à votre compte <strong>CultuRésa</strong> depuis longtemps.</p>'
             . self::emailNoticeBox(
                 'Conformément à notre politique de conservation des données (article 5 du RGPD), votre compte sera <strong>anonymisé d\'ici ' . $days . ' jours</strong> si vous ne vous reconnectez pas.',
                 'warn'
@@ -575,18 +575,18 @@ class Auth {
         try {
             send_mail($email, $subject, $body);
         } catch (\Exception $e) {
-            error_log('CultuRézo mailer error (notice): ' . $e->getMessage());
+            error_log('CultuRésa mailer error (notice): ' . $e->getMessage());
         }
     }
 
     /** Envoie l'email de confirmation de suppression de compte. */
     private static function sendDeletionConfirmationEmail(string $email, string $name, string $token): void {
         $confirmUrl = self::getAppUrl() . '/confirm.php?type=delete&token=' . urlencode($token);
-        $subject    = 'Confirmez la suppression de votre compte — CultuRézo';
+        $subject    = 'Confirmez la suppression de votre compte — CultuRésa';
         $body = self::emailLayout(
             'Demande de suppression',
             self::emailGreeting($name)
-            . '<p style="margin:0 0 12px">Vous avez demandé la suppression de votre compte <strong>CultuRézo</strong>. Pour confirmer définitivement cette action, cliquez sur le bouton ci-dessous.</p>'
+            . '<p style="margin:0 0 12px">Vous avez demandé la suppression de votre compte <strong>CultuRésa</strong>. Pour confirmer définitivement cette action, cliquez sur le bouton ci-dessous.</p>'
             . self::emailButton($confirmUrl, '🗑️  Confirmer la suppression', 'danger')
             . self::emailNoticeBox(
                 '<strong>Action irréversible.</strong> Vos nom, prénom, e-mail et téléphone seront définitivement effacés. L\'historique de vos réservations sera conservé sans lien personnel, à des fins statistiques.',
@@ -597,7 +597,7 @@ class Auth {
         try {
             send_mail($email, $subject, $body);
         } catch (\Exception $e) {
-            error_log('CultuRézo mailer error (deletion): ' . $e->getMessage());
+            error_log('CultuRésa mailer error (deletion): ' . $e->getMessage());
         }
     }
 
@@ -684,11 +684,11 @@ class Auth {
     /** Envoie le mail avec le lien de réinitialisation (look unifié). */
     private static function sendPasswordResetEmail(string $email, string $name, string $token): void {
         $resetUrl = self::getAppUrl() . '/confirm.php?type=reset_password&token=' . urlencode($token);
-        $subject  = 'Réinitialisation de votre mot de passe — CultuRézo';
+        $subject  = 'Réinitialisation de votre mot de passe — CultuRésa';
         $body = self::emailLayout(
             'Réinitialisation de mot de passe',
             self::emailGreeting($name)
-            . '<p style="margin:0 0 12px">Une demande de réinitialisation de votre mot de passe CultuRézo a été effectuée. Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe.</p>'
+            . '<p style="margin:0 0 12px">Une demande de réinitialisation de votre mot de passe CultuRésa a été effectuée. Cliquez sur le bouton ci-dessous pour définir un nouveau mot de passe.</p>'
             . self::emailButton($resetUrl, '🔑  Choisir un nouveau mot de passe')
             . self::emailNoticeBox(
                 'Ce lien est valable <strong>1 heure</strong> seulement, pour des raisons de sécurité. Au-delà, il faudra refaire une demande.',
@@ -699,7 +699,7 @@ class Auth {
         try {
             send_mail($email, $subject, $body);
         } catch (\Exception $e) {
-            error_log('CultuRézo mailer error (password reset): ' . $e->getMessage());
+            error_log('CultuRésa mailer error (password reset): ' . $e->getMessage());
         }
     }
 

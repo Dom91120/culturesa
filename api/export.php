@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/export.php
+//  CultuRésa — API /api/export.php
 //  GET ?service_id=
 //  Génère un export CSV des réservations (admin/gestionnaire).
 //  Colonnes alignées sur la "Liste des réservations" de l'onglet Éditions :

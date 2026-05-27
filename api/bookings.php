@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/bookings.php
+//  CultuRésa — API /api/bookings.php
 //  GET  ?service_id=&user_id=   → réservations d'un utilisateur
 //  GET  ?service_id=&all=1      → toutes les réservations (admin/gestionnaire)
 //  POST ?action=book            → réserver
@@ -707,12 +707,12 @@ if ($action === 'send_recap') {
         . '<p style="font-size:13px;color:#444;margin:.4em 0">' . $intro . '</p>'
         . $changesHtml
         . $snapHtml
-        . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRézo.</p>'
+        . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRésa.</p>'
         . '</div>';
 
     $subject = $pending
-        ? '[CultuRézo] Votre demande de réservation - ' . $svcLabel
-        : '[CultuRézo] Récapitulatif de vos réservations - ' . $svcLabel;
+        ? '[CultuRésa] Votre demande de réservation - ' . $svcLabel
+        : '[CultuRésa] Récapitulatif de vos réservations - ' . $svcLabel;
 
     try {
         send_mail($user['email'], $subject, $html);
@@ -774,7 +774,7 @@ if ($action === 'cancel') {
             if ($userName === '') $userName = (string)$bkForMail['email'];
             $svcLabel = $bkForMail['service_label'] ?? '';
             $line     = bk_format_booking_line($bkForMail);
-            $subject  = '[CultuRézo] Votre réservation a été annulée - ' . $svcLabel;
+            $subject  = '[CultuRésa] Votre réservation a été annulée - ' . $svcLabel;
             $html =
                 '<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:1.5em;color:#222">'
                 . '<h2 style="font-size:18px;color:#222;margin:0 0 .8em">Annulation de réservation</h2>'
@@ -784,7 +784,7 @@ if ($action === 'cancel') {
                 . '<ul style="padding-left:1.2em;margin:.2em 0 .6em;font-size:13px;color:#222">'
                 . '<li style="margin:.2rem 0">' . $esc($line) . '</li>'
                 . '</ul>'
-                . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRézo.</p>'
+                . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRésa.</p>'
                 . '</div>';
             send_mail($bkForMail['email'], $subject, $html);
         } catch (Exception $e) {
@@ -839,8 +839,8 @@ if ($action === 'validate') {
                     ? 'Votre réservation a été <strong>validée</strong> par un gestionnaire.'
                     : 'La validation de votre réservation a été <strong>annulée</strong> par un gestionnaire — elle repasse en attente.';
                 $subject = $isValidation
-                    ? '[CultuRézo] Votre réservation a été validée - ' . $svcLabel
-                    : '[CultuRézo] Validation de votre réservation annulée - ' . $svcLabel;
+                    ? '[CultuRésa] Votre réservation a été validée - ' . $svcLabel
+                    : '[CultuRésa] Validation de votre réservation annulée - ' . $svcLabel;
                 $html =
                     '<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:1.5em;color:#222">'
                     . '<h2 style="font-size:18px;color:#222;margin:0 0 .8em">' . ($isValidation ? 'Validation de réservation' : 'Validation annulée') . '</h2>'
@@ -850,7 +850,7 @@ if ($action === 'validate') {
                     . '<ul style="padding-left:1.2em;margin:.2em 0 .6em;font-size:13px;color:#222">'
                     . '<li style="margin:.2rem 0">' . $esc($line) . '</li>'
                     . '</ul>'
-                    . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRézo.</p>'
+                    . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRésa.</p>'
                     . '</div>';
                 send_mail($bk['email'], $subject, $html);
             }

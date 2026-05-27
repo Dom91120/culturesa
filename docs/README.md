@@ -1,4 +1,4 @@
-# CultuRézo — Documentation administrateur
+# CultuRésa — Documentation administrateur
 
 Documents techniques destinés à l'admin réseau qui déploie et maintient l'application.
 

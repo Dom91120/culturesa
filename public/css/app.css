@@ -1,5 +1,5 @@
 /* ============================================================
-   CultuRézo — Feuille de style principale
+   CultuRésa — Feuille de style principale
    Extraite et adaptée depuis la version HTML autonome
 ============================================================ */
 
@@ -20,6 +20,16 @@
   --warn-dim: rgba(232,164,90,.1);
   --danger: #e06b6b;
   --danger-dim: rgba(224,107,107,.1);
+  /* Texte des badges à fond pastel : reste sombre dans les deux modes
+     (le fond du badge ne change pas selon le thème, donc le contraste
+     doit rester celui calculé pour fond clair). */
+  --badge-text: #1a1f2e;
+  /* Vert lime des créneaux ponctuels (agenda-block.is-uniq, csm-slot-block.is-uniq,
+     légende). Variable séparée de --accent pour ne pas affecter le reste. */
+  --slot-uniq-color: #93d540;
+  /* Fond de la sidebar en mode sombre. En mode clair, redéfini dans html.light
+     (cf. plus bas) à une teinte différente. */
+  --sidebar-bg: #121520;
   --radius: 10px;
   --rad-sm: 6px;
 }
@@ -222,10 +232,10 @@ header {
   height: 100%;
   overflow-y: auto;
 }
-main { width: 100%; background: var(--surface); }
+main { width: 100%; background: var(--surface1); }
 
 #service-sidebar-wrap {
-  background: var(--surface); border-right: 1px solid var(--border);
+  background: var(--sidebar-bg); border-right: 1px solid var(--border);
   padding: 0 0 1rem 0;
   height: calc(100dvh - 2 * var(--header-h, 60px));
   position: sticky; top: 0; align-self: flex-start; overflow-y: auto; overflow-x: hidden; border-radius: var(--radius);
@@ -563,9 +573,9 @@ textarea { resize: vertical; }
   background: radial-gradient(circle at center, rgba(220, 225, 70, .28), transparent 70%);
 }
 .slot-btn.selected { border-color: var(--accent); background: var(--accent); color: #0f1117; }
-.slot-btn.my-booking { background: #c8e8d4; border-color: var(--accent); box-shadow: 2px 2px 4px rgba(0, 0, 0, .28); }
+.slot-btn.my-booking { background: #c8e8d4; border-color: var(--accent); box-shadow: 2px 2px 4px rgba(0, 0, 0, .28); color: var(--badge-text); }
 .slot-btn.my-booking:hover { background: #b3dec2; border-color: rgba(109, 206, 170, .65); }
-.slot-btn.my-booking-pending { background: #f3dfbb; border-color: rgba(232, 164, 90, .45); box-shadow: 2px 2px 4px rgba(0, 0, 0, .28); }
+.slot-btn.my-booking-pending { background: #f3dfbb; border-color: rgba(232, 164, 90, .45); box-shadow: 2px 2px 4px rgba(0, 0, 0, .28); color: var(--badge-text); }
 .slot-btn.my-booking-pending:hover { background: #ead0a3; border-color: rgba(232, 164, 90, .65); }
 .slot-btn:disabled { opacity: .8; cursor: not-allowed; }
 /* Petite croix de suppression sur les badges "my-booking", visible au survol */
@@ -889,7 +899,7 @@ textarea.theme-pending:focus::placeholder {
 .planning-name-tag {
   background: var(--accent);
   border-radius: 6px; padding: .25rem .5rem; font-size: .72rem; font-weight: 500;
-  color: var(--text); width: 100%; box-sizing: border-box;
+  color: var(--badge-text); width: 100%; box-sizing: border-box;
   display: flex; flex-direction: column; height: 44px;
   cursor: grab; user-select: none; position: relative;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, .28);
@@ -1141,7 +1151,7 @@ textarea.theme-pending:focus::placeholder {
     );
 }
 .csm-slot-block.is-uniq {
-  --agenda-block-color: #aedb6e;
+  --agenda-block-color: var(--slot-uniq-color);
   background-color: color-mix(in srgb, var(--slot-color, var(--accent)) 14%, transparent);
 }
 .cell-stack-list {
@@ -1475,7 +1485,7 @@ textarea.theme-pending:focus::placeholder {
   z-index: 2;
 }
 .agenda-block.is-uniq {
-  --agenda-block-color: #aedb6e;
+  --agenda-block-color: var(--slot-uniq-color);
   background: color-mix(in srgb, var(--block-color, var(--accent)) 14%, transparent);
 }
 .agenda-block.is-long { justify-content: center; }
@@ -1495,7 +1505,7 @@ textarea.theme-pending:focus::placeholder {
   border-top: 3px dashed var(--legend-color);
 }
 .agenda-legend-swatch.is-uniq {
-  --legend-color: #aedb6e;
+  --legend-color: var(--slot-uniq-color);
   background: color-mix(in srgb, var(--legend-color) 14%, transparent);
 }
 .agenda-block.is-warn {
@@ -1680,6 +1690,7 @@ textarea.theme-pending:focus::placeholder {
   max-width: calc(100% - 8px);
   max-height: calc(100% - 6px);
   border-radius: var(--rad-sm);
+  color: var(--badge-text);
   display: flex;
   flex-direction: column;
   align-items: center;

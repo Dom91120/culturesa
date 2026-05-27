@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/stats.php  (admin/gestionnaire)
+//  CultuRésa — API /api/stats.php  (admin/gestionnaire)
 //  GET ?service_id=&type=&period_id=&exercice_id=&date_from=&date_to=
 //
 //  type        : 'rec' | 'uniq' | 'all'  (défaut 'all')

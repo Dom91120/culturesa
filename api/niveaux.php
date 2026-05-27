@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/niveaux.php
+//  CultuRésa — API /api/niveaux.php
 //  GET  action=list   (public) → liste des niveaux
 //  POST action=create (auth)   → cree un niveau (dedup case-insensitive)
 // ============================================================

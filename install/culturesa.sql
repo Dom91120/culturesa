@@ -1,5 +1,5 @@
 -- ============================================================
---  CultuRézo — Schéma de base de données MySQL
+--  CultuRésa — Schéma de base de données MySQL
 --  Compatible MySQL 8.0+
 -- ============================================================
 
@@ -35,6 +35,15 @@ CREATE TABLE IF NOT EXISTS `services` (
   `open_on_holidays`         TINYINT(1)   NOT NULL DEFAULT 0,
   `show_previous_exercices`  TINYINT(1)   NOT NULL DEFAULT 0,
   `themes_mode`              ENUM('libre','liste') NOT NULL DEFAULT 'libre',
+  -- Délai d'auto-validation des réservations, en minutes signées :
+  --   0      = jamais (pas d'auto-validation)
+  --   -120   = 2h ouvrées avant la séance
+  --   -1440  = 1 jour ouvré avant
+  --   -2880  = 2 jours ouvrés
+  --   -4320  = 3 jours ouvrés
+  --   +10080 = 1 semaine calendaire après la résa
+  --   +20160 = 2 semaines calendaires
+  `auto_validation_delay`    INT          NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -299,6 +308,9 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   `accompagnants`     SMALLINT     NOT NULL DEFAULT 0,
   `validated`         TINYINT(1)   NOT NULL DEFAULT 0,
   `created_at`        DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  -- Timestamp depuis lequel le délai d'auto-validation est compté.
+  -- Initialisé à created_at à la création, mis à jour à NOW() sur un move.
+  `auto_validate_from` DATETIME    NULL,
   `pointage`          ENUM('present','absent') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_recurring` (`user_id`,`service_id`,`slot_id`,`period_id`,`day_key`,`week`),
@@ -324,6 +336,22 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`token`),
   KEY `fk_sess_user` (`user_id`),
   CONSTRAINT `fk_sess_user` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ──────────────────────────────────────────────
+-- Table : auth_attempts (rate-limiting des tentatives de login + password reset)
+-- ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS `auth_attempts` (
+  `id`           INT          NOT NULL AUTO_INCREMENT,
+  `kind`         VARCHAR(32)  NOT NULL,
+  `email`        VARCHAR(255) NOT NULL DEFAULT '',
+  `ip`           VARCHAR(45)  NOT NULL DEFAULT '',
+  `succeeded`    TINYINT(1)   NOT NULL DEFAULT 0,
+  `attempted_at` DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_kind_time`       (`kind`, `attempted_at`),
+  KEY `idx_email_kind_time` (`email`, `kind`, `attempted_at`),
+  KEY `idx_ip_kind_time`    (`ip`, `kind`, `attempted_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ──────────────────────────────────────────────
@@ -453,4 +481,4 @@ INSERT IGNORE INTO `slots` (`id`,`service_id`,`slot_type`,`start_time`,`end_time
 -- Compte administrateur par défaut (mot de passe : Admin1234!)
 -- Hash généré via password_hash('Admin1234!', PASSWORD_DEFAULT)
 INSERT IGNORE INTO `users` (`email`,`password`,`prenom`,`nom`,`role`,`rgpd_ok`,`email_confirmed`) VALUES
-('admin@culturezo.fr', '$2y$10$UhPWgPH2mpK1wQAX67PQ7..BmN1wg6v3Ww2.WNQG.I8BVtFV0FqmO', 'Admin', 'CultuRézo', 'administrateur', 1, 1);
+('admin@culturesa.fr', '$2y$10$UhPWgPH2mpK1wQAX67PQ7..BmN1wg6v3Ww2.WNQG.I8BVtFV0FqmO', 'Admin', 'CultuRésa', 'administrateur', 1, 1);

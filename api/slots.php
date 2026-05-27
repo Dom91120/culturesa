@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/slots.php
+//  CultuRésa — API /api/slots.php
 //  POST ?action=save          → sauvegarder les créneaux d'un service (admin)
 //  POST ?action=set_state     → activer / désactiver / archiver un créneau
 //  POST ?action=set_demandeurs → définir les demandeurs autorisés

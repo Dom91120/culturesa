@@ -1,12 +1,12 @@
 /* ============================================================
-   CultuRézo — JavaScript Frontend (version LAMP)
+   CultuRésa — JavaScript Frontend (version LAMP)
    Remplace le localStorage par des appels API REST PHP
 ============================================================ */
 
 'use strict';
 
 // ── Configuration ────────────────────────────────────────
-const BASE = '/culturezo'; // Sous-dossier de l'application
+const BASE = '/culturesa'; // Sous-dossier de l'application
 const API  = BASE + '/api';
 
 // ── Données dynamiques (périodes) ────────────────────────
@@ -8386,7 +8386,7 @@ function printAgenda(bw) {
 </head>
 <body>
   <div class="print-header">
-    <div class="print-title"><span class="resa">Cultu</span><em>Rézo</em> — Agenda hebdomadaire</div>
+    <div class="print-title"><span class="resa">Cultu</span><em>Résa</em> — Agenda hebdomadaire</div>
     <div class="print-sub">
       ${serviceLabel ? `<strong>${serviceLabel}</strong>` : ''}
       ${exercice ? ` · ${exercice}` : ''}
@@ -8669,7 +8669,7 @@ function printPlanning() {
   </head><body>
     <div class="print-header">
       <div></div>
-      <div class="print-title"><span class="resa">Cultu</span><em>Rézo</em> &nbsp;·&nbsp; ${title}</div>
+      <div class="print-title"><span class="resa">Cultu</span><em>Résa</em> &nbsp;·&nbsp; ${title}</div>
       <div class="print-date">${printDate}</div>
     </div>
     ${tableHtml}

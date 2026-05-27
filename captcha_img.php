@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Génération du CAPTCHA image (GD, sans dépendance)
+//  CultuRésa — Génération du CAPTCHA image (GD, sans dépendance)
 //  Retourne un PNG avec texte distordu + bruit.
 //  La réponse attendue est stockée en $_SESSION['captcha_answer'].
 // ============================================================

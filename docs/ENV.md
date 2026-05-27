@@ -1,6 +1,6 @@
-# CultuRézo — Variables d'environnement
+# CultuRésa — Variables d'environnement
 
-Document destiné à l'administrateur réseau qui déploie CultuRézo en production.
+Document destiné à l'administrateur réseau qui déploie CultuRésa en production.
 
 Toutes les valeurs sensibles sont lues par `includes/config.php` via `getenv()`. Elles doivent être injectées dans l'environnement du process PHP (PHP-FPM, mod_php, CLI cron…), **pas dans le code versionné**.
 
@@ -20,12 +20,12 @@ Au choix, selon l'infrastructure :
 |---|---|---|---|---|
 | `DB_HOST` | string | recommandé | `localhost` | Hôte MySQL/MariaDB |
 | `DB_PORT` | int | non | `3306` | Port MySQL |
-| `DB_NAME` | string | recommandé | `culturezo` | Nom de la base |
-| `DB_USER` | string | recommandé | `root` | Utilisateur MySQL (**créer un user dédié `culturezo_app` en prod, pas root**) |
+| `DB_NAME` | string | recommandé | `culturesa` | Nom de la base |
+| `DB_USER` | string | recommandé | `root` | Utilisateur MySQL (**créer un user dédié `culturesa_app` en prod, pas root**) |
 | `DB_PASS` | string | **oui en prod** | `''` | Mot de passe MySQL |
 | `DB_CHARSET` | string | non | `utf8mb4` | Encodage MySQL |
 | `SESSION_TTL` | int (secondes) | non | `28800` (8h) | Durée de vie d'une session |
-| `BASE_PATH` | string | non | `/culturezo` | Préfixe d'URL si l'app n'est pas servie à la racine du domaine (ex : `/` si servie à la racine) |
+| `BASE_PATH` | string | non | `/culturesa` | Préfixe d'URL si l'app n'est pas servie à la racine du domaine (ex : `/` si servie à la racine) |
 | `TZ` | string | non | `Europe/Paris` | Timezone PHP (`date_default_timezone_set`) |
 | `APP_DEBUG` | bool (`1`/`0`) | non | `0` | `1` = affichage des erreurs PHP (dev uniquement). En prod : laisser vide ou `0`. |
 | `SENTRY_DSN` | string (URL) | non | `''` | DSN Sentry si l'on active le tracking d'erreurs (cf. integration future) |
@@ -54,7 +54,7 @@ Au choix, selon l'infrastructure :
 Cf. `scripts/auto_validate_bookings.php` — header pour la doc complète :
 
 ```cron
-*/15 * * * * /usr/bin/php /var/www/culturezo/scripts/auto_validate_bookings.php >> /var/log/culturezo/auto_validate.log 2>&1
+*/15 * * * * /usr/bin/php /var/www/culturesa/scripts/auto_validate_bookings.php >> /var/log/culturesa/auto_validate.log 2>&1
 ```
 
 Le script doit hériter des mêmes env vars que PHP-FPM (`DB_PASS` notamment). Si le cron est lancé par un user différent de PHP-FPM, vérifier que l'environnement est bien propagé (`SystemdEnvFile` ou wrapper script qui source les vars).
@@ -64,7 +64,7 @@ Le script doit hériter des mêmes env vars que PHP-FPM (`DB_PASS` notamment). S
 La table `auth_attempts` (rate limiting) s'auto-nettoie ~1% des inserts (DELETE des entrées > 1 jour). Sur un volume très bas (< 100 logins/jour), ce cleanup peut être très rare. Pour garantir une rotation :
 
 ```cron
-0 4 * * * mysql -u root culturezo -e "DELETE FROM auth_attempts WHERE attempted_at < DATE_SUB(NOW(), INTERVAL 1 DAY)" > /dev/null 2>&1
+0 4 * * * mysql -u root culturesa -e "DELETE FROM auth_attempts WHERE attempted_at < DATE_SUB(NOW(), INTERVAL 1 DAY)" > /dev/null 2>&1
 ```
 
 Pas critique — la table ne grossira pas plus que quelques milliers de lignes même sans cron.
@@ -88,9 +88,9 @@ Aucun service tiers, juste du code PHP + une table `auth_attempts`. Seuils tunab
 
 | Chemin | Owner | Mode | Notes |
 |---|---|---|---|
-| `/var/www/culturezo/*` | `www-data` (lecture) | 644 fichiers, 755 dossiers | code applicatif |
-| `/var/www/culturezo/includes/config.php` | `www-data` | **600** | contient potentiellement `SENTRY_DSN`, à protéger |
-| `/var/log/culturezo/` | `www-data` (write) | 755 | logs cron + app |
+| `/var/www/culturesa/*` | `www-data` (lecture) | 644 fichiers, 755 dossiers | code applicatif |
+| `/var/www/culturesa/includes/config.php` | `www-data` | **600** | contient potentiellement `SENTRY_DSN`, à protéger |
+| `/var/log/culturesa/` | `www-data` (write) | 755 | logs cron + app |
 | backups SQL (cf. cron mysqldump) | `root` ou user dédié | 600, hors webroot | jamais accessible depuis le web |
 
 ## Backups DB (à coordonner côté infra)
@@ -99,9 +99,9 @@ Aucun service tiers, juste du code PHP + une table `auth_attempts`. Seuils tunab
 
 ```bash
 # Quotidien 3h
-0 3 * * * mysqldump -u backup_user --single-transaction --quick culturezo | gzip | gpg --encrypt --recipient backup@chatillon92.fr > /var/backups/culturezo/culturezo_$(date +\%Y\%m\%d).sql.gz.gpg
+0 3 * * * mysqldump -u backup_user --single-transaction --quick culturesa | gzip | gpg --encrypt --recipient backup@chatillon92.fr > /var/backups/culturesa/culturesa_$(date +\%Y\%m\%d).sql.gz.gpg
 # Rotation 30 jours
-0 4 * * * find /var/backups/culturezo -name 'culturezo_*.sql.gz.gpg' -mtime +30 -delete
+0 4 * * * find /var/backups/culturesa -name 'culturesa_*.sql.gz.gpg' -mtime +30 -delete
 ```
 
 Tester une restauration **au moins une fois par mois**.

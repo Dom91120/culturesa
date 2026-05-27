@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Helper d'envoi d'e-mail
+//  CultuRésa — Helper d'envoi d'e-mail
 //  Utilise PHPMailer (SMTP) ou mail() selon la configuration.
 // ============================================================
 
@@ -26,8 +26,8 @@ function send_mail(string $to, string $subject, string $htmlBody): bool
     foreach ($rows as $row) $cfg[$row['cfg_key']] = $row['cfg_value'] ?? '';
 
     $driver   = $cfg['mail_driver']    ?: 'mail';
-    $from     = $cfg['mail_from']      ?: (defined('MAIL_FROM')      ? MAIL_FROM      : 'noreply@culturezo.fr');
-    $fromName = $cfg['mail_from_name'] ?: (defined('MAIL_FROM_NAME') ? MAIL_FROM_NAME : 'CultuRézo');
+    $from     = $cfg['mail_from']      ?: (defined('MAIL_FROM')      ? MAIL_FROM      : 'noreply@culturesa.fr');
+    $fromName = $cfg['mail_from_name'] ?: (defined('MAIL_FROM_NAME') ? MAIL_FROM_NAME : 'CultuRésa');
 
     // ── Mode SMTP via PHPMailer ───────────────────────────────
     if ($driver === 'smtp') {
@@ -82,7 +82,7 @@ function send_mail(string $to, string $subject, string $htmlBody): bool
         'Content-Transfer-Encoding: base64',
         'From: =?UTF-8?B?' . base64_encode($fromName) . '?= <' . $from . '>',
         'Reply-To: ' . $from,
-        'X-Mailer: CultuRézo',
+        'X-Mailer: CultuRésa',
     ]);
 
     return (bool) @mail($to, $encodedSubject, base64_encode($htmlBody), $headers);

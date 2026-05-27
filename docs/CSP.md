@@ -1,10 +1,10 @@
-# CultuRézo — Content-Security-Policy
+# CultuRésa — Content-Security-Policy
 
 Document destiné à l'administrateur réseau pour configurer les headers HTTP de sécurité au niveau Nginx / Apache.
 
 ## Politique de base recommandée
 
-À poser sur **toutes les réponses HTTP** servies par CultuRézo (HTML, JSON API…) :
+À poser sur **toutes les réponses HTTP** servies par CultuRésa (HTML, JSON API…) :
 
 ```
 Content-Security-Policy:
@@ -31,7 +31,7 @@ Content-Security-Policy:
 | `font-src` | `'self' https://fonts.gstatic.com` | les fichiers de fonts physiques (woff2) sont hébergés sur gstatic |
 | `img-src` | `'self' data:` | autorise les data-URI pour les SVG et icônes inline |
 | `connect-src` | `'self'` | les appels XHR / fetch vers l'API sont sur le même domaine |
-| `frame-ancestors` | `'none'` | interdit que CultuRézo soit iframé ailleurs (anti-clickjacking) — équivalent à `X-Frame-Options: DENY` mais moderne |
+| `frame-ancestors` | `'none'` | interdit que CultuRésa soit iframé ailleurs (anti-clickjacking) — équivalent à `X-Frame-Options: DENY` mais moderne |
 | `base-uri` | `'self'` | empêche un attaquant d'injecter `<base href="...">` pour rerouter les chemins relatifs |
 | `form-action` | `'self'` | les `<form action="">` doivent rester sur le même domaine |
 
@@ -53,7 +53,7 @@ Permissions-Policy: geolocation=(), microphone=(), camera=()
 
 ## Configuration Nginx (exemple)
 
-À mettre dans le `server { }` ou la `location / { }` du vhost CultuRézo :
+À mettre dans le `server { }` ou la `location / { }` du vhost CultuRésa :
 
 ```nginx
 add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" always;

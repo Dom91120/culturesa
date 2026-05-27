@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Configuration applicative (template)
+//  CultuRésa — Configuration applicative (template)
 // ============================================================
 //  Copiez ce fichier en config.php (déjà gitignored) et adaptez les valeurs.
 //
@@ -22,8 +22,8 @@ $_env = static function(string $key, $default = '') {
 
 define('DB_HOST',     $_env('DB_HOST',     'localhost'));
 define('DB_PORT', (int)$_env('DB_PORT',     3306));
-define('DB_NAME',     $_env('DB_NAME',     'culturezo'));
-define('DB_USER',     $_env('DB_USER',     'culturezo_user'));
+define('DB_NAME',     $_env('DB_NAME',     'culturesa'));
+define('DB_USER',     $_env('DB_USER',     'culturesa_user'));
 define('DB_PASS',     $_env('DB_PASS',     ''));            // ⚠️ JAMAIS de vrai mot de passe ici en clair
 define('DB_CHARSET',  $_env('DB_CHARSET',  'utf8mb4'));
 
@@ -31,8 +31,8 @@ define('SESSION_TTL', (int)$_env('SESSION_TTL', 8 * 3600));
 define('BASE_PATH',         $_env('BASE_PATH',  ''));
 
 // Email expéditeur par défaut (peut être surchargé via l'admin UI → app_config).
-define('MAIL_FROM',      $_env('MAIL_FROM',      'noreply@culturezo.fr'));
-define('MAIL_FROM_NAME', $_env('MAIL_FROM_NAME', 'CultuRézo'));
+define('MAIL_FROM',      $_env('MAIL_FROM',      'noreply@culturesa.fr'));
+define('MAIL_FROM_NAME', $_env('MAIL_FROM_NAME', 'CultuRésa'));
 
 date_default_timezone_set($_env('TZ', 'Europe/Paris'));
 

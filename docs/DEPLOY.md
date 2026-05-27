@@ -1,4 +1,4 @@
-# CultuRézo — Checklist de déploiement production
+# CultuRésa — Checklist de déploiement production
 
 Document destiné à l'administrateur réseau pour une mise en prod propre.
 
@@ -15,8 +15,8 @@ Document destiné à l'administrateur réseau pour une mise en prod propre.
 
 ```bash
 cd /var/www
-git clone https://github.com/Dom91120/repo.git culturezo
-cd culturezo
+git clone https://github.com/Dom91120/repo.git culturesa
+cd culturesa
 composer install --no-dev --optimize-autoloader
 ```
 
@@ -25,31 +25,18 @@ composer install --no-dev --optimize-autoloader
 ```bash
 # Créer la base et un user dédié
 mysql -u root -p <<'EOF'
-CREATE DATABASE culturezo CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-CREATE USER 'culturezo_app'@'localhost' IDENTIFIED BY '<MOT_DE_PASSE_FORT>';
-GRANT SELECT, INSERT, UPDATE, DELETE ON culturezo.* TO 'culturezo_app'@'localhost';
-GRANT CREATE, ALTER, DROP, INDEX, REFERENCES ON culturezo.* TO 'culturezo_app'@'localhost'; -- pour les migrations futures
+CREATE DATABASE culturesa CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE USER 'culturesa_app'@'localhost' IDENTIFIED BY '<MOT_DE_PASSE_FORT>';
+GRANT SELECT, INSERT, UPDATE, DELETE ON culturesa.* TO 'culturesa_app'@'localhost';
+GRANT CREATE, ALTER, DROP, INDEX, REFERENCES ON culturesa.* TO 'culturesa_app'@'localhost'; -- pour les migrations futures
 FLUSH PRIVILEGES;
 EOF
 
 # Schéma initial
-mysql -u root -p culturezo < install/culturezo.sql
+mysql -u root -p culturesa < install/culturesa.sql
 ```
 
-## 3. Migrations à appliquer dans l'ordre
-
-Pour une installation récente avec `install/culturezo.sql`, certaines de ces migrations sont déjà incluses. Vérifier avant d'appliquer (échec idempotent en général : `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` n'existe pas en MySQL, donc une 2e exécution échoue → c'est OK, ça signifie "déjà fait").
-
-```bash
-# Dans l'ordre chronologique (cf. nom du fichier)
-mysql -u root -p culturezo < install/migrate_2026-05-fk.sql
-mysql -u root -p culturezo < install/migrate_2026-05-rename-period.sql
-mysql -u root -p culturezo < install/migrate_2026-05-period-ponctuels.sql
-mysql -u root -p culturezo < install/migrate_2026-05-auto-validation.sql
-mysql -u root -p culturezo < install/migrate_2026-05-rate-limiting.sql
-```
-
-## 4. Configuration applicative
+## 3. Configuration applicative
 
 ```bash
 cp includes/config.example.php includes/config.php
@@ -63,8 +50,8 @@ Variables minimales à fournir (cf. `docs/ENV.md` pour le détail complet) :
 
 ```bash
 DB_HOST=localhost
-DB_NAME=culturezo
-DB_USER=culturezo_app
+DB_NAME=culturesa
+DB_USER=culturesa_app
 DB_PASS=<MOT_DE_PASSE_FORT>
 BASE_PATH=                          # vide si servi à la racine du domaine
 TZ=Europe/Paris
@@ -76,8 +63,8 @@ Via systemd (`/etc/systemd/system/php8.3-fpm.service.d/override.conf`) :
 ```ini
 [Service]
 Environment="DB_HOST=localhost"
-Environment="DB_NAME=culturezo"
-Environment="DB_USER=culturezo_app"
+Environment="DB_NAME=culturesa"
+Environment="DB_USER=culturesa_app"
 Environment="DB_PASS=<MOT_DE_PASSE_FORT>"
 Environment="BASE_PATH="
 Environment="TZ=Europe/Paris"
@@ -86,18 +73,18 @@ Environment="APP_DEBUG=0"
 
 Puis : `systemctl daemon-reload && systemctl restart php8.3-fpm`.
 
-## 5. HTTPS + reverse proxy
+## 4. HTTPS + reverse proxy
 
 ```bash
 # Let's Encrypt + nginx (exemple Ubuntu/Debian)
 apt install -y certbot python3-certbot-nginx
-certbot --nginx -d culturezo.example.fr
+certbot --nginx -d culturesa.example.fr
 # Renouvellement auto déjà configuré via /etc/cron.d/certbot
 ```
 
 Conf nginx : voir `docs/CSP.md` pour les headers de sécurité à ajouter dans le `server { }`.
 
-## 6. Configuration mail (SMTP)
+## 5. Configuration mail (SMTP)
 
 **Pas en env vars**, géré via l'interface admin :
 1. Connexion en admin sur la nouvelle instance
@@ -111,19 +98,19 @@ Si le serveur d'envoi est en TLS, ouvrir le port sortant (587 ou 465) dans le fi
 ufw allow out 587/tcp
 ```
 
-## 7. Cron jobs
+## 6. Cron jobs
 
 Cf. `docs/ENV.md` section "Cron à mettre en place". Au minimum :
 
 ```cron
-*/15 * * * * /usr/bin/php /var/www/culturezo/scripts/auto_validate_bookings.php >> /var/log/culturezo/auto_validate.log 2>&1
-0 3 * * *   mysqldump -u backup_user --single-transaction --quick culturezo | gzip > /var/backups/culturezo/culturezo_$(date +\%Y\%m\%d).sql.gz
-0 4 * * *   find /var/backups/culturezo -name 'culturezo_*.sql.gz' -mtime +30 -delete
+*/15 * * * * /usr/bin/php /var/www/culturesa/scripts/auto_validate_bookings.php >> /var/log/culturesa/auto_validate.log 2>&1
+0 3 * * *   mysqldump -u backup_user --single-transaction --quick culturesa | gzip > /var/backups/culturesa/culturesa_$(date +\%Y\%m\%d).sql.gz
+0 4 * * *   find /var/backups/culturesa -name 'culturesa_*.sql.gz' -mtime +30 -delete
 ```
 
 (Adapter au besoin avec chiffrement GPG pour les backups, cf. ENV.md.)
 
-## 8. Headers HTTP de sécurité
+## 7. Headers HTTP de sécurité
 
 Cf. `docs/CSP.md`. Inclure dans le vhost nginx :
 
@@ -134,7 +121,7 @@ Cf. `docs/CSP.md`. Inclure dans le vhost nginx :
 - `Referrer-Policy`
 - `Permissions-Policy`
 
-## 9. Firewall + fail2ban
+## 8. Firewall + fail2ban
 
 ```bash
 ufw default deny incoming
@@ -149,7 +136,7 @@ apt install -y fail2ban
 systemctl enable --now fail2ban
 ```
 
-## 10. Hardening SSH
+## 9. Hardening SSH
 
 Dans `/etc/ssh/sshd_config` :
 - `PermitRootLogin no`
@@ -159,13 +146,13 @@ Dans `/etc/ssh/sshd_config` :
 
 Recharger : `systemctl restart sshd`.
 
-## 11. Monitoring
+## 10. Monitoring
 
 Au minimum :
-- **UptimeRobot** (gratuit) : ping toutes les 5 min sur `https://culturezo.example.fr` avec alerting mail/SMS
+- **UptimeRobot** (gratuit) : ping toutes les 5 min sur `https://culturesa.example.fr` avec alerting mail/SMS
 - **Sentry** (optionnel mais utile) : tracking erreurs PHP+JS
 
-## 12. Premier compte admin
+## 11. Premier compte admin
 
 À créer manuellement après installation. L'inscription publique nécessite un email de confirmation et donne `role='utilisateur'`. Pour avoir un admin :
 
@@ -177,7 +164,7 @@ UPDATE users SET role='administrateur' WHERE email='ton.admin@example.fr';
 -- → plus simple : passer par l'inscription, confirmer l'email, puis SQL UPDATE
 ```
 
-## 13. Tests de bon fonctionnement
+## 12. Tests de bon fonctionnement
 
 - [ ] HTTPS répond, redirection HTTP → HTTPS active
 - [ ] Login admin OK

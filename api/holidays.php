@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/holidays.php
+//  CultuRésa — API /api/holidays.php
 //  GET  ?action=list_school&zone=A
 //  POST ?action=refresh_school&zone=A
 // ============================================================

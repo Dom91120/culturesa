@@ -1,4 +1,4 @@
-# CultuRézo — Application LAMP
+# CultuRésa — Application LAMP
 
 Système de réservation de créneaux culturels (sorties scolaires, ateliers, visites…).
 Converti depuis la version HTML autonome (localStorage) vers une architecture LAMP complète.
@@ -8,7 +8,7 @@ Converti depuis la version HTML autonome (localStorage) vers une architecture LA
 ## Structure des fichiers
 
 ```
-culturezo/
+culturesa/
 ├── index.php               ← Page principale (SPA)
 ├── .htaccess               ← Config Apache (sécurité, cache, compression)
 ├── api/
@@ -30,7 +30,7 @@ culturezo/
 │   └── js/app.js           ← JavaScript frontend
 └── install/
     ├── index.php           ← Assistant d'installation web
-    └── culturezo.sql        ← Schéma de base de données
+    └── culturesa.sql        ← Schéma de base de données
 ```
 
 ---
@@ -40,7 +40,7 @@ culturezo/
 ### Option A — Via l'assistant web
 
 1. Déposez les fichiers sur votre serveur LAMP
-2. Ouvrez `http://votre-domaine/culturezo/install/` dans un navigateur
+2. Ouvrez `http://votre-domaine/culturesa/install/` dans un navigateur
 3. Remplissez les paramètres DB et le compte admin
 4. Cliquez sur **Installer**
 5. **Supprimez ou protégez le dossier `install/`**
@@ -49,12 +49,12 @@ culturezo/
 
 1. **Créer la base de données MySQL :**
    ```sql
-   CREATE DATABASE culturezo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   CREATE DATABASE culturesa CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    ```
 
 2. **Importer le schéma :**
    ```bash
-   mysql -u root -p culturezo < install/culturezo.sql
+   mysql -u root -p culturesa < install/culturesa.sql
    ```
 
 3. **Configurer la connexion :**
@@ -67,7 +67,7 @@ culturezo/
    ```sql
    UPDATE users
    SET password = '$2y$12$VOTRE_HASH_ICI'
-   WHERE email = 'admin@culturezo.fr';
+   WHERE email = 'admin@culturesa.fr';
    ```
    Générer un hash PHP : `php -r "echo password_hash('VotreMotDePasse', PASSWORD_DEFAULT);"`
 
@@ -83,16 +83,16 @@ culturezo/
 
 ```apache
 <VirtualHost *:80>
-    ServerName culturezo.exemple.fr
-    DocumentRoot /var/www/culturezo
+    ServerName culturesa.exemple.fr
+    DocumentRoot /var/www/culturesa
 
-    <Directory /var/www/culturezo>
+    <Directory /var/www/culturesa>
         AllowOverride All
         Require all granted
     </Directory>
 
-    ErrorLog  ${APACHE_LOG_DIR}/culturezo_error.log
-    CustomLog ${APACHE_LOG_DIR}/culturezo_access.log combined
+    ErrorLog  ${APACHE_LOG_DIR}/culturesa_error.log
+    CustomLog ${APACHE_LOG_DIR}/culturesa_access.log combined
 </VirtualHost>
 ```
 
@@ -111,7 +111,7 @@ Après installation via l'assistant :
 - **Mot de passe :** celui que vous avez saisi
 
 Après installation manuelle avec le SQL brut :
-- **Email :** `admin@culturezo.fr`  
+- **Email :** `admin@culturesa.fr`  
 - **Mot de passe :** à définir via hash PHP (voir ci-dessus)
 
 ---

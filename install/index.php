@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CultuRézo — Installation</title>
+<title>CultuRésa — Installation</title>
 <style>
   body { font-family: system-ui,sans-serif; background:#0f1117; color:#e8e4da; max-width:700px; margin:4rem auto; padding:1rem 1.5rem; }
   h1   { font-size:1.8rem; font-weight:300; margin-bottom:.3rem; }
@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<h1>Cultu<em>Rézo</em> — Installation</h1>
+<h1>Cultu<em>Résa</em> — Installation</h1>
 <p style="color:#7a8099;margin-bottom:2rem;font-size:.9rem">Assistant de configuration pour serveur LAMP</p>
 
 <?php
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['db_host'])) {
         $pdo->exec("USE `$name`");
 
         // Lire et exécuter le SQL
-        $sql = file_get_contents(__DIR__.'/culturezo.sql');
+        $sql = file_get_contents(__DIR__.'/culturesa.sql');
         // Remplacer le hash admin par un vrai hash.
         // Le hash bcrypt contient des "$N" (ex: $2y$10$...) qui seraient interprétés
         // comme des backreferences par preg_replace. On échappe \ et $ dans le replacement,
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['db_host'])) {
         $hash = password_hash($adminPwd, PASSWORD_DEFAULT);
         $emailSql = str_replace("'", "''", $adminEmail);
         $hashSql  = str_replace("'", "''", $hash);
-        $replacement = "INSERT IGNORE INTO `users` (`email`, `password`, `prenom`, `nom`, `role`, `rgpd_ok`) VALUES\n('$emailSql', '$hashSql', 'Admin', 'CultuRézo', 'administrateur', 1);";
+        $replacement = "INSERT IGNORE INTO `users` (`email`, `password`, `prenom`, `nom`, `role`, `rgpd_ok`) VALUES\n('$emailSql', '$hashSql', 'Admin', 'CultuRésa', 'administrateur', 1);";
         $sql = preg_replace(
             "/INSERT IGNORE INTO `users`.*?VALUES\s*\([^)]+\);/s",
             addcslashes($replacement, '\\$'),
@@ -131,38 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['db_host'])) {
         );
         foreach (split_sql_statements($sql) as $stmt) {
             $pdo->exec($stmt . ';');
-        }
-
-        // Appliquer les migrations dans l'ordre chronologique.
-        // - install/migrate_YYYY-MM-*.sql : datées (tri alpha = chrono)
-        // - install/migrations/NNN_*.sql  : numérotées
-        // On ignore les erreurs "déjà appliqué" pour rester idempotent : le schéma
-        // principal (culturezo.sql) peut déjà intégrer une partie d'une migration.
-        $migrationErrors = [];
-        $migrationFiles = array_merge(
-            glob(__DIR__ . '/migrate_*.sql') ?: [],
-            glob(__DIR__ . '/migrations/*.sql') ?: []
-        );
-        sort($migrationFiles);
-        foreach ($migrationFiles as $mf) {
-            $msql = file_get_contents($mf);
-            foreach (split_sql_statements($msql) as $stmt) {
-                try {
-                    $pdo->exec($stmt . ';');
-                } catch (PDOException $e) {
-                    $msg = $e->getMessage();
-                    $ignorable = (
-                        $e->getCode() === '42S01'                       // table déjà existante
-                        || strpos($msg, 'Duplicate column') !== false
-                        || strpos($msg, 'Duplicate key') !== false
-                        || strpos($msg, 'Duplicate foreign key') !== false
-                        || strpos($msg, 'check that column/key exists') !== false
-                    );
-                    if (!$ignorable) {
-                        $migrationErrors[] = basename($mf) . ' : ' . $msg;
-                    }
-                }
-            }
         }
 
         // Écrire config.php
@@ -197,16 +165,6 @@ PHP;
     <strong>🔒 Important :</strong> Supprimez ou protégez ce dossier <code>install/</code> dès maintenant.<br><br>
     <a href="../" style="font-weight:700">→ Accéder à l'application</a>
   </div>
-  <?php if (!empty($migrationErrors)): ?>
-    <div class="msg-err" style="margin-top:.75rem">
-      ⚠️ <strong>Migrations avec erreur (non bloquant) :</strong>
-      <ul style="margin:.5rem 0 0;font-size:.8rem">
-        <?php foreach ($migrationErrors as $me): ?>
-          <li><?= htmlspecialchars($me) ?></li>
-        <?php endforeach; ?>
-      </ul>
-    </div>
-  <?php endif; ?>
 <?php elseif ($error): ?>
   <div class="msg-err">❌ Erreur : <?= htmlspecialchars($error) ?></div>
 <?php endif; ?>
@@ -220,7 +178,7 @@ PHP;
     <label>Port</label>
     <input type="number" name="db_port" value="3306" required>
     <label>Nom de la base</label>
-    <input type="text" name="db_name" value="culturezo" required>
+    <input type="text" name="db_name" value="culturesa" required>
     <label>Utilisateur MySQL</label>
     <input type="text" name="db_user" value="root" required>
     <label>Mot de passe MySQL</label>
@@ -229,11 +187,11 @@ PHP;
   <div class="step">
     <h2>👤 Compte administrateur</h2>
     <label>E-mail administrateur</label>
-    <input type="email" name="admin_email" value="admin@culturezo.fr" required>
+    <input type="email" name="admin_email" value="admin@culturesa.fr" required>
     <label>Mot de passe administrateur</label>
     <input type="password" name="admin_pwd" placeholder="Choisissez un mot de passe fort" required minlength="12">
   </div>
-  <button class="btn" type="submit">🚀 Installer CultuRézo</button>
+  <button class="btn" type="submit">🚀 Installer CultuRésa</button>
 </form>
 <?php endif; ?>
 
@@ -243,10 +201,10 @@ PHP;
     Vous pouvez aussi installer manuellement en suivant ces étapes :
   </p>
   <ol style="font-size:.85rem;color:#9aa0b8;line-height:2;padding-left:1.5rem">
-    <li>Créer la base MySQL et importer <code>install/culturezo.sql</code></li>
+    <li>Créer la base MySQL et importer <code>install/culturesa.sql</code></li>
     <li>Copier <code>includes/config.example.php</code> en <code>includes/config.php</code></li>
     <li>Renseigner les paramètres DB dans <code>includes/config.php</code></li>
-    <li>Définir un mot de passe admin via <code>UPDATE users SET password=PASSWORD_HASH WHERE email='admin@culturezo.fr'</code></li>
+    <li>Définir un mot de passe admin via <code>UPDATE users SET password=PASSWORD_HASH WHERE email='admin@culturesa.fr'</code></li>
     <li>Supprimer ou protéger le dossier <code>install/</code></li>
   </ol>
 </div>

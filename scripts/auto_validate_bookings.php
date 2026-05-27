@@ -1,9 +1,9 @@
 <?php
 // ============================================================
-//  CultuRézo — Cron auto-validation des réservations
+//  CultuRésa — Cron auto-validation des réservations
 // ============================================================
 //  À lancer toutes les ~15 min via crontab :
-//    */15 * * * * /usr/bin/php /var/www/culturezo/scripts/auto_validate_bookings.php >> /var/log/culturezo/auto_validate.log 2>&1
+//    */15 * * * * /usr/bin/php /var/www/culturesa/scripts/auto_validate_bookings.php >> /var/log/culturesa/auto_validate.log 2>&1
 //
 //  Logique :
 //  Pour chaque service ayant services.auto_validation_delay != 0, on parcourt
@@ -170,7 +170,7 @@ function av_send_user_mail(array $bk): void {
     if ($userName === '') $userName = (string)$bk['email'];
     $svcLabel = $bk['service_label'] ?? '';
     $line = av_format_booking_line($bk);
-    $subject = '[CultuRézo] Votre réservation a été validée - ' . $svcLabel;
+    $subject = '[CultuRésa] Votre réservation a été validée - ' . $svcLabel;
     $html =
         '<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:1.5em;color:#222">'
         . '<h2 style="font-size:18px;color:#222;margin:0 0 .8em">Réservation validée</h2>'
@@ -180,7 +180,7 @@ function av_send_user_mail(array $bk): void {
         . '<ul style="padding-left:1.2em;margin:.2em 0 .6em;font-size:13px;color:#222">'
         . '<li style="margin:.2rem 0">' . $esc($line) . '</li>'
         . '</ul>'
-        . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRézo.</p>'
+        . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRésa.</p>'
         . '</div>';
     try {
         send_mail($bk['email'], $subject, $html);
@@ -197,7 +197,7 @@ function av_send_managers_mail(string $serviceId, array $bk): void {
     $svcLabel = $bk['service_label'] ?? '';
     $userFull = trim(($bk['prenom'] ?? '') . ' ' . ($bk['nom'] ?? ''));
     $line = av_format_booking_line($bk);
-    $subject = '[CultuRézo] Auto-validation d\'une réservation - ' . $svcLabel;
+    $subject = '[CultuRésa] Auto-validation d\'une réservation - ' . $svcLabel;
     $html =
         '<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:1.5em;color:#222">'
         . '<h2 style="font-size:18px;color:#222;margin:0 0 .8em">Auto-validation effectuée</h2>'
@@ -207,7 +207,7 @@ function av_send_managers_mail(string $serviceId, array $bk): void {
         . '<li style="margin:.2rem 0"><strong>Demandeur :</strong> ' . $esc($userFull) . ' &lt;' . $esc($bk['email'] ?? '') . '&gt;</li>'
         . '<li style="margin:.2rem 0"><strong>Créneau :</strong> ' . $esc($line) . '</li>'
         . '</ul>'
-        . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRézo.</p>'
+        . '<p style="font-size:11px;color:#999;margin-top:2em;border-top:1px solid #eee;padding-top:.6em">Cet e-mail a été envoyé automatiquement par CultuRésa.</p>'
         . '</div>';
 
     // Gestionnaires affectés à ce service : services JSON contient l'id.

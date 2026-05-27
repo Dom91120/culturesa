@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/rgpd_log.php  (admin uniquement)
+//  CultuRésa — API /api/rgpd_log.php  (admin uniquement)
 //  GET ?action=list      → liste les entrées du journal RGPD
 //  GET ?action=export    → export CSV du journal complet
 //

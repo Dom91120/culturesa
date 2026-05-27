@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Vue HTML imprimable de l'export RGPD
+//  CultuRésa — Vue HTML imprimable de l'export RGPD
 //  GET /rgpd_export.php?id=<userId>
 //
 //  Affiche les données personnelles d'un utilisateur dans une mise
@@ -111,7 +111,7 @@ $dayMap = ['mon'=>'lundi','tue'=>'mardi','wed'=>'mercredi','thu'=>'jeudi','fri'=
 
 <div class="meta">
   <strong>Compte n° <?= $userId ?></strong><br>
-  Application : CultuRézo<br>
+  Application : CultuRésa<br>
   Base légale : article 15 du Règlement Général sur la Protection des Données (droit d'accès)
 </div>
 

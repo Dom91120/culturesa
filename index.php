@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CultuRézo — Réservations</title>
+<title>CultuRésa — Réservations</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Barlow+Condensed:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="stylesheet" href="public/css/app.css?v=<?= @filemtime(__DIR__.'/public/css/app.css') ?: time() ?>">
@@ -14,7 +14,7 @@
 
 <header>
   <div class="logo hidden" id="header-logo">
-    Cultu<em>Rézo</em>
+    Cultu<em>Résa</em>
   </div>
   <div class="tagline hidden" id="header-tagline">Réseau d'activités culturelles</div>
 
@@ -45,7 +45,7 @@
   <div id="service-sidebar-wrap" style="display:none;width:18%;min-width:fit-content;max-width:300px;flex-shrink:0;position:relative">
     <button id="sidebar-toggle" onclick="toggleServiceSidebar()" title="Réduire / agrandir">☰</button>
     <div class="sidebar-header">
-      <div class="sidebar-title" style="font-size:1rem;font-weight:bolder;color:var(--text)"><span class="sidebar-title-resa">Cultu</span><em style="color:var(--accent);font-style:italic">Rézo</em></div>
+      <div class="sidebar-title" style="font-size:1rem;font-weight:bolder;color:var(--text)"><span class="sidebar-title-resa">Cultu</span><em style="color:var(--accent);font-style:italic">Résa</em></div>
       <div class="sidebar-tagline">Réseau d'activités culturelles</div>
     </div>
     <div class="sidebar-label" style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem .75rem .4rem">Services</div>
@@ -305,7 +305,7 @@
           </p>
           <ol style="text-align:left;display:inline-block;color:var(--fg);line-height:2;margin-bottom:1.5rem">
             <li>Ouvrez votre boîte mail</li>
-            <li>Recherchez un message de <strong>CultuRézo</strong></li>
+            <li>Recherchez un message de <strong>CultuRésa</strong></li>
             <li>Cliquez sur le lien de confirmation</li>
             <li>Revenez ici et connectez-vous</li>
           </ol>
@@ -599,7 +599,7 @@
 
             <div class="field">
               <label for="cfg-mail-from-name">Nom expéditeur</label>
-              <input type="text" id="cfg-mail-from-name" placeholder="CultuRézo">
+              <input type="text" id="cfg-mail-from-name" placeholder="CultuRésa">
             </div>
 
             <div id="smtp-fields-wrap" style="display:contents">

@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Connexion PDO singleton
+//  CultuRésa — Connexion PDO singleton
 // ============================================================
 
 require_once __DIR__ . '/config.php';
@@ -859,7 +859,7 @@ class DB {
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");
             } catch (\Throwable $e) {
                 // La migration a échoué mais on laisse la connexion continuer
-                error_log('[CultuRézo migration] ' . $e->getMessage());
+                error_log('[CultuRésa migration] ' . $e->getMessage());
             }
         }
         return self::$pdo;

@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — API /api/services.php
+//  CultuRésa — API /api/services.php
 //  GET    → liste des services
 //  POST   ?action=create  → créer un service (admin)
 //  POST   ?action=update  → modifier un service (admin)

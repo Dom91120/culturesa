@@ -1,6 +1,6 @@
 <?php
 // ============================================================
-//  CultuRézo — Utilitaires API REST
+//  CultuRésa — Utilitaires API REST
 // ============================================================
 
 require_once __DIR__ . '/auth.php';
@@ -31,7 +31,7 @@ function get_input(): array {
 
 /**
  * Path à utiliser pour les cookies de session. Scope le cookie à l'app courante
- * pour éviter qu'une autre app du même domaine (ex: localhost/culturezo et
+ * pour éviter qu'une autre app du même domaine (ex: localhost/culturesa et
  * localhost/resago) n'écrase mutuellement les tokens.
  *
  * Priorité : BASE_PATH si configuré, sinon dérivation depuis SCRIPT_NAME
