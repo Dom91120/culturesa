@@ -8386,7 +8386,7 @@ function printAgenda(bw) {
 </head>
 <body>
   <div class="print-header">
-    <div class="print-title"><span class="resa">Résa</span><em>Go</em> — Agenda hebdomadaire</div>
+    <div class="print-title"><span class="resa">Cultu</span><em>Rézo</em> — Agenda hebdomadaire</div>
     <div class="print-sub">
       ${serviceLabel ? `<strong>${serviceLabel}</strong>` : ''}
       ${exercice ? ` · ${exercice}` : ''}
@@ -8669,7 +8669,7 @@ function printPlanning() {
   </head><body>
     <div class="print-header">
       <div></div>
-      <div class="print-title"><span class="resa">Résa</span><em>Go</em> &nbsp;·&nbsp; ${title}</div>
+      <div class="print-title"><span class="resa">Cultu</span><em>Rézo</em> &nbsp;·&nbsp; ${title}</div>
       <div class="print-date">${printDate}</div>
     </div>
     ${tableHtml}

@@ -300,7 +300,7 @@ class Auth {
             . '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border-radius:14px;max-width:520px;width:100%;box-shadow:0 1px 2px rgba(15,17,23,.04),0 6px 24px rgba(15,17,23,.08);overflow:hidden">'
             // Header
             . '<tr><td style="padding:28px 36px 22px;border-bottom:1px solid #eef0f3">'
-            . '<div style="font-size:1.45rem;font-weight:600;letter-spacing:-.015em;color:#1a1f2e;line-height:1">Résa<span style="color:#6dceaa">Go</span></div>'
+            . '<div style="font-size:1.45rem;font-weight:600;letter-spacing:-.015em;color:#1a1f2e;line-height:1">Cultu<span style="color:#6dceaa">Rézo</span></div>'
             . '<div style="font-size:.66rem;color:#9aa0b4;margin-top:6px;letter-spacing:.12em;font-weight:600">' . $kickerEsc . '</div>'
             . '</td></tr>'
             // Body

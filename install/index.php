@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<h1>Résa<em>Cult</em> — Installation</h1>
+<h1>Cultu<em>Rézo</em> — Installation</h1>
 <p style="color:#7a8099;margin-bottom:2rem;font-size:.9rem">Assistant de configuration pour serveur LAMP</p>
 
 <?php
