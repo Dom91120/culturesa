@@ -30,6 +30,21 @@ function get_input(): array {
 }
 
 /**
+ * Path à utiliser pour les cookies de session. Scope le cookie à l'app courante
+ * pour éviter qu'une autre app du même domaine (ex: localhost/culturezo et
+ * localhost/resago) n'écrase mutuellement les tokens.
+ *
+ * Priorité : BASE_PATH si configuré, sinon dérivation depuis SCRIPT_NAME
+ * (qui pointe vers .../api/auth.php ou .../index.php).
+ */
+function cookie_path(): string {
+    if (defined('BASE_PATH') && BASE_PATH !== '') return BASE_PATH . '/';
+    $dir = rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? '/'), '/');
+    $dir = preg_replace('#/(api|install)$#', '', $dir);
+    return ($dir === '' ? '' : $dir) . '/';
+}
+
+/**
  * Récupère l'utilisateur connecté depuis le token, ou termine avec 401
  */
 function require_auth(): array {

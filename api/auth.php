@@ -38,10 +38,14 @@ switch ($action) {
         if (isset($result['ok']) && !$result['ok']) {
             json_response(['ok' => false, 'error' => $result['error']], 403);
         }
-        // Envoi du cookie httpOnly
+        // Envoi du cookie httpOnly.
+        // Nettoie un éventuel ancien cookie posé avec path='/' (avant le fix de
+        // scope) : sans ça, deux 'rc_token' coexistent dans le browser et le
+        // serveur reçoit un token ambigu.
+        setcookie('rc_token', '', ['expires' => time() - 3600, 'path' => '/']);
         setcookie('rc_token', $result['token'], [
             'expires'  => time() + SESSION_TTL,
-            'path'     => '/',
+            'path'     => cookie_path(),
             'httponly' => true,
             'samesite' => 'Lax',
         ]);
@@ -69,6 +73,8 @@ switch ($action) {
         $header = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
         if (preg_match('/Bearer\s+(.+)/i', $header, $m)) Auth::logout(trim($m[1]));
         elseif (!empty($_COOKIE['rc_token'])) Auth::logout($_COOKIE['rc_token']);
+        setcookie('rc_token', '', ['expires' => time() - 3600, 'path' => cookie_path()]);
+        // Nettoie aussi l'éventuel ancien cookie posé avec path='/'.
         setcookie('rc_token', '', ['expires' => time() - 3600, 'path' => '/']);
         json_response(['ok' => true]);
 

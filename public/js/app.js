@@ -191,7 +191,7 @@ async function apiPost(endpoint, data) { return apiFetch(endpoint, { method: 'PO
 function _clearLocalSession() {
   authToken = null; currentUser = null;
   sessionStorage.removeItem('rc_token');
-  document.cookie = 'rc_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+  document.cookie = 'rc_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=' + BASE + '/';
   SERVICES = []; currentServiceId = null; currentService = null;
   pendingSelection = {}; cancelledBookings = []; initialThemes = {}; initialCounts = {}; allBookings = []; allBookingsUnique = [];
   userAgendaPeriodIdx = null; userAgendaWeekAnchor = null; userAgendaWeekAB = 'A';
