@@ -14,3 +14,4 @@ Thumbs.db
 
 # Réglages locaux Claude Code (spécifiques à chaque poste)
 .claude/settings.local.json
+.claude/worktrees/
