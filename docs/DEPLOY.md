@@ -28,7 +28,7 @@ mysql -u root -p <<'EOF'
 CREATE DATABASE culturesa CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 CREATE USER 'culturesa_app'@'localhost' IDENTIFIED BY '<MOT_DE_PASSE_FORT>';
 GRANT SELECT, INSERT, UPDATE, DELETE ON culturesa.* TO 'culturesa_app'@'localhost';
-GRANT CREATE, ALTER, DROP, INDEX, REFERENCES ON culturesa.* TO 'culturesa_app'@'localhost'; -- pour les migrations futures
+GRANT CREATE, ALTER, DROP, INDEX, REFERENCES ON culturesa.* TO 'culturesa_app'@'localhost'; -- pour les évolutions futures du schéma
 FLUSH PRIVILEGES;
 EOF
 
