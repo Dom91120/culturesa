@@ -29,6 +29,50 @@
 <p style="color:#7a8099;margin-bottom:2rem;font-size:.9rem">Assistant de configuration pour serveur LAMP</p>
 
 <?php
+// Découpe un dump SQL en statements en respectant strings, commentaires ligne (--)
+// et commentaires bloc (/* */). Évite de splitter sur un ';' présent dans un
+// commentaire ou une chaîne (cas réel : `-- token expire en 1h ; ...`).
+function split_sql_statements(string $sql): array {
+    $stmts = [];
+    $current = '';
+    $len = strlen($sql);
+    $inString = false; $stringChar = '';
+    $inLineComment = false; $inBlockComment = false;
+    for ($i = 0; $i < $len; $i++) {
+        $c = $sql[$i];
+        $next = $i + 1 < $len ? $sql[$i + 1] : '';
+        if ($inLineComment) {
+            $current .= $c;
+            if ($c === "\n") $inLineComment = false;
+            continue;
+        }
+        if ($inBlockComment) {
+            $current .= $c;
+            if ($c === '*' && $next === '/') { $current .= $next; $i++; $inBlockComment = false; }
+            continue;
+        }
+        if ($inString) {
+            $current .= $c;
+            if ($c === '\\' && $next !== '') { $current .= $next; $i++; continue; }
+            if ($c === $stringChar) $inString = false;
+            continue;
+        }
+        if ($c === '-' && $next === '-') { $inLineComment = true; $current .= $c; continue; }
+        if ($c === '/' && $next === '*') { $inBlockComment = true; $current .= $c . $next; $i++; continue; }
+        if ($c === "'" || $c === '"') { $inString = true; $stringChar = $c; $current .= $c; continue; }
+        if ($c === ';') {
+            $t = trim($current);
+            if ($t !== '') $stmts[] = $t;
+            $current = '';
+            continue;
+        }
+        $current .= $c;
+    }
+    $t = trim($current);
+    if ($t !== '') $stmts[] = $t;
+    return $stmts;
+}
+
 // ── Vérifications système ────────────────────────────────
 $checks = [];
 $checks[] = ['PHP ≥ 7.4', version_compare(PHP_VERSION,'7.4','>='), PHP_VERSION];
@@ -85,8 +129,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['db_host'])) {
             addcslashes($replacement, '\\$'),
             $sql
         );
-        foreach (array_filter(array_map('trim', explode(';', $sql))) as $stmt) {
-            if ($stmt) $pdo->exec($stmt . ';');
+        foreach (split_sql_statements($sql) as $stmt) {
+            $pdo->exec($stmt . ';');
+        }
+
+        // Appliquer les migrations dans l'ordre chronologique.
+        // - install/migrate_YYYY-MM-*.sql : datées (tri alpha = chrono)
+        // - install/migrations/NNN_*.sql  : numérotées
+        // On ignore les erreurs "déjà appliqué" pour rester idempotent : le schéma
+        // principal (culturezo.sql) peut déjà intégrer une partie d'une migration.
+        $migrationErrors = [];
+        $migrationFiles = array_merge(
+            glob(__DIR__ . '/migrate_*.sql') ?: [],
+            glob(__DIR__ . '/migrations/*.sql') ?: []
+        );
+        sort($migrationFiles);
+        foreach ($migrationFiles as $mf) {
+            $msql = file_get_contents($mf);
+            foreach (split_sql_statements($msql) as $stmt) {
+                try {
+                    $pdo->exec($stmt . ';');
+                } catch (PDOException $e) {
+                    $msg = $e->getMessage();
+                    $ignorable = (
+                        $e->getCode() === '42S01'                       // table déjà existante
+                        || strpos($msg, 'Duplicate column') !== false
+                        || strpos($msg, 'Duplicate key') !== false
+                        || strpos($msg, 'Duplicate foreign key') !== false
+                        || strpos($msg, 'check that column/key exists') !== false
+                    );
+                    if (!$ignorable) {
+                        $migrationErrors[] = basename($mf) . ' : ' . $msg;
+                    }
+                }
+            }
         }
 
         // Écrire config.php
@@ -121,6 +197,16 @@ PHP;
     <strong>🔒 Important :</strong> Supprimez ou protégez ce dossier <code>install/</code> dès maintenant.<br><br>
     <a href="../" style="font-weight:700">→ Accéder à l'application</a>
   </div>
+  <?php if (!empty($migrationErrors)): ?>
+    <div class="msg-err" style="margin-top:.75rem">
+      ⚠️ <strong>Migrations avec erreur (non bloquant) :</strong>
+      <ul style="margin:.5rem 0 0;font-size:.8rem">
+        <?php foreach ($migrationErrors as $me): ?>
+          <li><?= htmlspecialchars($me) ?></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  <?php endif; ?>
 <?php elseif ($error): ?>
   <div class="msg-err">❌ Erreur : <?= htmlspecialchars($error) ?></div>
 <?php endif; ?>
