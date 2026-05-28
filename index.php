@@ -494,7 +494,7 @@
           </div>
           <div style="margin-top:.5rem;visibility:hidden;display:flex;align-items:center;gap:.75rem" id="svc-bulk-toolbar">
             <span id="svc-bulk-count" style="font-size:.82rem;color:var(--muted)"></span>
-            <button class="btn btn-ghost" onclick="editSelectedSvc()" style="border-color:rgba(109,206,170,.4);color:var(--accent);font-size:.8rem">✏️ Modifier</button>
+            <button class="btn btn-ghost" onclick="editSelectedSvc()" style="border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent);font-size:.8rem">✏️ Modifier</button>
             <button class="btn btn-ghost" onclick="deleteSelectedSvcs()" style="border-color:rgba(220,80,80,.4);color:#e05555;font-size:.8rem">🗑️ Supprimer</button>
           </div>
         </div>
@@ -532,7 +532,7 @@
           <div style="margin-top:.5rem;display:flex;align-items:center;gap:.75rem">
             <div style="visibility:hidden;display:flex;align-items:center;gap:.75rem;flex:1" id="uc-bulk-toolbar-admin">
               <span id="uc-bulk-count-admin" style="font-size:.82rem;color:var(--muted)"></span>
-              <button class="btn btn-ghost" onclick="editSelectedAccount()" style="border-color:rgba(109,206,170,.4);color:var(--accent);font-size:.68rem;padding:.25rem .65rem">✏️ Modifier</button>
+              <button class="btn btn-ghost" onclick="editSelectedAccount()" style="border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent);font-size:.68rem;padding:.25rem .65rem">✏️ Modifier</button>
               <button class="btn btn-ghost" id="btn-delete-account" onclick="deleteSelectedAccounts()" style="display:none;border-color:rgba(220,80,80,.4);color:#e05555;font-size:.68rem;padding:.25rem .65rem" title="Supprimer définitivement (réservé aux comptes sans réservation)">🗑️ Supprimer</button>
               <button class="btn btn-ghost" id="btn-resend-confirm" onclick="resendConfirmationEmail()" style="display:none;border-color:rgba(232,164,90,.4);color:var(--warn);font-size:.68rem;padding:.25rem .65rem">🖅 Renvoyer le mail de confirmation</button>
               <button class="btn btn-ghost" onclick="clearAccountSelection()" style="font-size:.68rem;padding:.25rem .65rem" title="Désélectionner le compte">Annuler</button>
@@ -649,7 +649,7 @@
                 <input type="email" id="cfg-mail-test-to" placeholder="destinataire@example.com">
               </div>
               <button class="btn btn-ghost" onclick="sendTestMail()"
-                style="padding:.38rem .9rem;font-size:.78rem;border-color:rgba(109,206,170,.4);color:var(--accent)">
+                style="padding:.38rem .9rem;font-size:.78rem;border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent)">
                 🖅 Envoyer le test
               </button>
             </div>
@@ -672,7 +672,7 @@
               <option value="C">C</option>
             </select>
             <button class="btn btn-ghost" onclick="refreshSchoolHolidays()"
-              style="font-size:.75rem;padding:.2rem .55rem;border-color:rgba(109,206,170,.4);color:var(--accent)"
+              style="font-size:.75rem;padding:.2rem .55rem;border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent)"
               title="Rafraîchir depuis data.education.gouv.fr">🔄 Rafraîchir</button>
             <span id="cfg-school-info" style="font-size:.72rem;color:var(--muted)"></span>
           </label>
@@ -964,7 +964,7 @@
                   style="font-size:.72rem;padding:.15rem .5rem;border-color:rgba(220,160,60,.5);color:var(--warn)">⚡</button>
               </div>
               <div id="recur-days-filter" style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap"></div>
-              <button class="btn btn-ghost" onclick="addSlotRec()" style="border-color:rgba(109,206,170,.3);color:var(--accent);white-space:nowrap;flex-shrink:0;font-size:.7rem;padding:.2rem .6rem;border-radius:var(--rad-sm);letter-spacing:.04em">＋ Ajouter</button>
+              <button class="btn btn-ghost" onclick="addSlotRec()" style="border-color:color-mix(in srgb, var(--accent) 30%, transparent);color:var(--accent);white-space:nowrap;flex-shrink:0;font-size:.7rem;padding:.2rem .6rem;border-radius:var(--rad-sm);letter-spacing:.04em">＋ Ajouter</button>
             </div>
           </div>
           <div class="period-tabs" id="cap-period-tabs-2"></div>
@@ -1020,7 +1020,7 @@
                 <button class="btn btn-ghost" onclick="applyCapacityToAllSlots()"
                   style="font-size:.72rem;padding:.15rem .5rem;border-color:rgba(220,160,60,.5);color:var(--warn)">⚡</button>
               </div>
-              <button class="btn btn-ghost" onclick="addSlotUniq()" style="border-color:rgba(109,206,170,.3);color:var(--accent);white-space:nowrap;flex-shrink:0;font-size:.7rem;padding:.2rem .6rem;border-radius:var(--rad-sm);letter-spacing:.04em">＋ Ajouter</button>
+              <button class="btn btn-ghost" onclick="addSlotUniq()" style="border-color:color-mix(in srgb, var(--accent) 30%, transparent);color:var(--accent);white-space:nowrap;flex-shrink:0;font-size:.7rem;padding:.2rem .6rem;border-radius:var(--rad-sm);letter-spacing:.04em">＋ Ajouter</button>
             </div>
           </div>
           <div id="cap-editor-uniq"></div>
@@ -1070,11 +1070,11 @@
                 <div class="pr-add">
                   <div id="btn-delete-periods" style="display:none;align-items:center;gap:.5rem">
                     <span id="period-selected-count" style="font-size:.82rem;color:var(--muted)"></span>
-                    <button class="btn btn-ghost" id="btn-edit-period"       onclick="openPeriodEditModal()"      style="display:none;border-color:rgba(109,206,170,.4);color:var(--accent);padding:.25rem .65rem;font-size:.68rem">✏️ Modifier</button>
-                    <button class="btn btn-ghost" id="btn-reactivate-period" onclick="reactivateSelectedPeriods()" style="display:none;border-color:rgba(109,206,170,.4);color:var(--accent);padding:.25rem .65rem;font-size:.68rem">✓ Réactiver</button>
+                    <button class="btn btn-ghost" id="btn-edit-period"       onclick="openPeriodEditModal()"      style="display:none;border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent);padding:.25rem .65rem;font-size:.68rem">✏️ Modifier</button>
+                    <button class="btn btn-ghost" id="btn-reactivate-period" onclick="reactivateSelectedPeriods()" style="display:none;border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent);padding:.25rem .65rem;font-size:.68rem">✓ Réactiver</button>
                     <button class="btn btn-ghost" id="btn-delete-period"     onclick="deleteSelectedPeriods()"     style="display:none;border-color:rgba(220,80,80,.4);color:#e05555;padding:.25rem .65rem;font-size:.68rem">🗑️ Supprimer</button>
                   </div>
-                  <button class="btn btn-ghost" onclick="addPeriod()" style="margin-left:auto;border-color:rgba(109,206,170,.3);color:var(--accent);padding:.25rem .7rem;font-size:.7rem">＋ Ajouter une période</button>
+                  <button class="btn btn-ghost" onclick="addPeriod()" style="margin-left:auto;border-color:color-mix(in srgb, var(--accent) 30%, transparent);color:var(--accent);padding:.25rem .7rem;font-size:.7rem">＋ Ajouter une période</button>
                 </div>
               </div>
               <div id="days-panel">
@@ -1364,7 +1364,7 @@
           Pour des raisons de confidentialité, l'administrateur ne définit pas le mot de passe. Un e-mail contenant un lien sécurisé (valable 1 heure) sera envoyé à l'utilisateur, qui choisira lui-même son nouveau mot de passe.
         </p>
         <button class="btn btn-ghost" id="btn-admin-pwd-reset" onclick="adminResetPassword()"
-          style="padding:.4rem .9rem;font-size:.78rem;border-color:rgba(109,206,170,.4);color:var(--accent)">
+          style="padding:.4rem .9rem;font-size:.78rem;border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent)">
           📧 Envoyer un lien de réinitialisation
         </button>
         <!-- Champ caché pour compat saveUserEdit() qui le lit dans le cas 'create' -->

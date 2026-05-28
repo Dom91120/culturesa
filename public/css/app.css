@@ -14,8 +14,11 @@
   --border-hover: rgba(255,255,255,.18);
   --text: #e8e4da;
   --muted: #7a8099;
-  --accent: #6dceaa;
-  --accent-dim: rgba(109,206,170,.12);
+  --accent: #2caf7f;
+  --accent-dim: color-mix(in srgb, var(--accent) 12%, transparent);
+  /* Fond des entêtes de tableaux admin (.admin-table th) : volontairement
+     identique en clair et sombre, donc non redéfini dans html.light. */
+  --admin-th-bg: #1f6c50;
   --warn: #e8a45a;
   --warn-dim: rgba(232,164,90,.1);
   --danger: #e06b6b;
@@ -24,9 +27,9 @@
      (le fond du badge ne change pas selon le thème, donc le contraste
      doit rester celui calculé pour fond clair). */
   --badge-text: #1a1f2e;
-  /* Vert lime des créneaux ponctuels (agenda-block.is-uniq, csm-slot-block.is-uniq,
-     légende). Variable séparée de --accent pour ne pas affecter le reste. */
-  --slot-uniq-color: #93d540;
+  /* Couleur des créneaux ponctuels (agenda-block.is-uniq, csm-slot-block.is-uniq,
+     légende), alignée sur l'accent. */
+  --slot-uniq-color: var(--accent);
   /* Fond de la sidebar en mode sombre. En mode clair, redéfini dans html.light
      (cf. plus bas) à une teinte différente. */
   --sidebar-bg: #121520;
@@ -45,7 +48,6 @@ html.light {
   --text: #1a1f2e;
   --muted: #8a909f;
   --accent: #5ab544;
-  --accent-dim: rgba(90,181,68,.13);
   --warn: #e07b20;
   --warn-dim: rgba(224,123,32,.12);
   --danger: #d63b3b;
@@ -83,7 +85,7 @@ body {
   background: var(--surface);
   color: var(--text);
   min-height: 100vh;
-  background-image: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(109,206,170,.07) 0%, transparent 70%);
+  background-image: radial-gradient(ellipse 80% 60% at 50% -20%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 70%);
 }
 
 /* ── Header ─────────────────────────────────────────────── */
@@ -445,7 +447,7 @@ input, select, textarea {
   outline: none; transition: border-color .2s, background .2s;
 }
 input:focus, select:focus, textarea:focus {
-  border-color: var(--accent); background: rgba(109,206,170,.05);
+  border-color: var(--accent); background: color-mix(in srgb, var(--accent) 5%, transparent);
 }
 input::placeholder { color: var(--muted); }
 input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
@@ -503,19 +505,19 @@ textarea { resize: vertical; }
 }
 .btn-primary { background: var(--accent); color: #0f1117; }
 .btn-primary:hover:not(:disabled) {
-  background: #85dab8; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(109,206,170,.25);
+  background: #85dab8; transform: translateY(-1px); box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 .btn-primary:disabled { opacity: .35; cursor: not-allowed; }
 .btn-ghost { background: transparent; border: 1px solid var(--border-hover); color: var(--text); }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 .btn-ghost:disabled { opacity: .35; cursor: not-allowed; }
 .btn-admin-export {
-  background: rgba(109,206,170,.12); border: 1px solid rgba(109,206,170,.3);
+  background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   color: var(--accent); padding: .3rem .7rem; border-radius: var(--rad-sm);
   font-family: inherit; font-size: .72rem; font-weight: 600;
   cursor: pointer; display: flex; align-items: center; gap: .35rem; transition: .2s; white-space: nowrap;
 }
-.btn-admin-export:hover { background: rgba(109,206,170,.2); transform: translateY(-1px); }
+.btn-admin-export:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); transform: translateY(-1px); }
 
 /* ── Period tabs ─────────────────────────────────────── */
 .period-tabs { display: flex; gap: .5rem; margin: 0.5rem 0; flex-wrap: wrap; margin-bottom: .75rem; }
@@ -574,7 +576,7 @@ textarea { resize: vertical; }
 }
 .slot-btn.selected { border-color: var(--accent); background: var(--accent); color: #0f1117; }
 .slot-btn.my-booking { background: #c8e8d4; border-color: var(--accent); box-shadow: 2px 2px 4px rgba(0, 0, 0, .28); color: var(--badge-text); }
-.slot-btn.my-booking:hover { background: #b3dec2; border-color: rgba(109, 206, 170, .65); }
+.slot-btn.my-booking:hover { background: #b3dec2; border-color: color-mix(in srgb, var(--accent) 65%, transparent); }
 .slot-btn.my-booking-pending { background: #f3dfbb; border-color: rgba(232, 164, 90, .45); box-shadow: 2px 2px 4px rgba(0, 0, 0, .28); color: var(--badge-text); }
 .slot-btn.my-booking-pending:hover { background: #ead0a3; border-color: rgba(232, 164, 90, .65); }
 .slot-btn:disabled { opacity: .8; cursor: not-allowed; }
@@ -599,7 +601,7 @@ textarea.slot-spots { padding-top: 1px; padding-bottom: 1px; }
 textarea.slot-spots { border: none; background: transparent; color: inherit; font-family: inherit; text-align: center; outline: none; width: calc(100% - 8px); margin-left: 4px; margin-right: 4px; cursor: text; resize: none; overflow: hidden; display: block; box-sizing: border-box; line-height: 1em; }
 textarea.slot-spots:focus { outline: 1px solid currentColor; background: #fff !important; border-radius: 4px; }
 /* Couleur du placeholder du thème — alignée sur "Enfants/Adultes" du gauge.
-   Utilise var(--accent) pour suivre le thème (dark: #6dceaa / light: #5ab544). */
+   Utilise var(--accent) pour suivre le thème (dark: #2caf7f / light: #5ab544). */
 textarea.theme-validated::placeholder,
 textarea.theme-validated:focus::placeholder {
   color: var(--accent) !important;
@@ -612,7 +614,7 @@ textarea.theme-pending:focus::placeholder {
   -webkit-text-fill-color: var(--warn) !important;
   opacity: 1;
 }
-.spots-ok  { background: rgba(109,206,170,.15); color: var(--accent); }
+.spots-ok  { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); }
 /* Sur un badge "en attente" (orange), le spots-ok hérite de la teinte orange */
 .slot-btn.my-booking-pending .spots-ok {
   background: rgba(232,164,90,.15);
@@ -632,7 +634,7 @@ textarea.theme-pending:focus::placeholder {
 .slot-btn[draggable="true"] { cursor: grab; }
 .slot-btn[draggable="true"]:active { cursor: grabbing; }
 .slot-btn-dragging { opacity: .3; }
-#tab-content-reservation td.slot-user-drop-target { background: rgba(109,206,170,.12); outline: 2px dashed var(--accent); outline-offset: -3px; }
+#tab-content-reservation td.slot-user-drop-target { background: color-mix(in srgb, var(--accent) 12%, transparent); outline: 2px dashed var(--accent); outline-offset: -3px; }
 #tab-content-reservation td.slot-user-drop-target .slot-btn { border-color: var(--accent); background: var(--accent-dim); }
 
 /* ── Recap ───────────────────────────────────────────────── */
@@ -642,7 +644,7 @@ textarea.theme-pending:focus::placeholder {
 .recap-key { font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .15rem; }
 .recap-val { font-size: .82rem; color: var(--text); font-weight: 500; }
 .recap-period-entry{
-  background: var(--surface2); border: 1px solid rgba(109,206,170,.2);
+  background: var(--surface2); border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: var(--rad-sm); padding: .5rem .75rem;
   display: flex; align-items: center; gap: .6rem;
 }
@@ -693,11 +695,11 @@ textarea.theme-pending:focus::placeholder {
 .admin-table { border-collapse: collapse; font-size: .75rem; width: 100%; line-height: 1; }
 .admin-table th {
   padding: .3rem .2rem .2rem; text-align: left; vertical-align: middle; font-size: .7rem; font-weight: 700;
-  letter-spacing: .09em; text-transform: uppercase; color: var(--text); background: var(--accent);
+  letter-spacing: .09em; text-transform: uppercase; color: #e8e4da; background: var(--admin-th-bg);
   border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none;
   transition: color .2s; line-height: 1.4;
 }
-.admin-table th:hover { color: var(--text); }
+.admin-table th:hover { color: #e8e4da; }
 .defaults-row { margin: 1rem 0 1.8rem; }
 .admin-table th.sorted { color: var(--accent); }
 /* Liste des réservations (Editions) : compacité via taille + padding (pas de police
@@ -985,7 +987,7 @@ textarea.theme-pending:focus::placeholder {
 }
 .role-admin { background: rgba(220,80,80,.15); color: #e05555; }
 .role-gestionnaire { background: rgba(232,164,90,.15); color: var(--warn); }
-.role-utilisateur { background: rgba(109,206,170,.15); color: var(--accent); }
+.role-utilisateur { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); }
 
 /* ── Modal overlay ───────────────────────────────────────── */
 .modal-overlay {
@@ -1127,7 +1129,7 @@ textarea.theme-pending:focus::placeholder {
   border-left: 3px dashed var(--slot-color, var(--accent));
   border-top:  3px dashed var(--slot-color, var(--accent));
   border-radius: var(--rad-sm);
-  background-color: color-mix(in srgb, var(--slot-color, var(--accent)) 22%, transparent);
+  background-color: color-mix(in srgb, var(--slot-color, var(--accent)) 25%, transparent);
   /* Confine les lignes horaires (background-image) à l'intérieur de la zone padding pour
      ne pas les laisser transparaître dans les trous des bordures pointillées. */
   background-clip: padding-box;
@@ -1152,7 +1154,7 @@ textarea.theme-pending:focus::placeholder {
 }
 .csm-slot-block.is-uniq {
   --agenda-block-color: var(--slot-uniq-color);
-  background-color: color-mix(in srgb, var(--slot-color, var(--accent)) 14%, transparent);
+  background-color: color-mix(in srgb, var(--slot-color, var(--accent)) 25%, transparent);
 }
 .cell-stack-list {
   display: grid; grid-template-columns: repeat(3, 160px); gap: .65rem;
@@ -1232,7 +1234,7 @@ textarea.theme-pending:focus::placeholder {
   font-size: .82rem; color: var(--text);
   cursor: pointer;
 }
-.niveau-combo-list-item:hover { background: rgba(109, 206, 170, .18); }
+.niveau-combo-list-item:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
 .niveau-combo-empty {
   padding: .35rem .65rem;
   font-size: .75rem; color: var(--muted); font-style: italic;
@@ -1243,7 +1245,7 @@ textarea.theme-pending:focus::placeholder {
   cursor: pointer;
   border-top: 1px dashed var(--border);
 }
-.niveau-combo-list-create:hover { background: rgba(109, 206, 170, .18); }
+.niveau-combo-list-create:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); }
 
 /* ── Modal "Nouvelle réservation" : compteurs Enfants / Adultes ── */
 .pcm-counters { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; }
@@ -1267,7 +1269,7 @@ textarea.theme-pending:focus::placeholder {
 .indic_r,.indic_v,.indic_e,.indic_p,.indic_a { display:block;font-size:.52rem;font-weight:800;color:#fff;border-radius:3px;padding:2px 3px;line-height:1;white-space:nowrap; }
 @media screen { .indic_v { display:none !important; } }
 .indic_r { background:rgba(120,120,120,.75); }
-.indic_v { background:rgba(109,206,170,.9); }
+.indic_v { background:color-mix(in srgb, var(--accent) 90%, transparent); }
 .indic_e { background:rgba(232,164,90,.9); }
 .indic_p { background:rgba(30,120,80,.9); }
 .indic_a { background:rgba(220,80,80,.9); }
@@ -1275,7 +1277,7 @@ textarea.theme-pending:focus::placeholder {
    !important nécessaire car _badgeStyle pose le background/border-color en inline. */
 .planning-name-tag.is-validated:hover {
   background: #b3dec2 !important;
-  border-color: rgba(109,206,170,.65) !important;
+  border-color: color-mix(in srgb, var(--accent) 65%, transparent) !important;
 }
 .planning-name-tag.is-pending:hover {
   background: #ead0a3 !important;
@@ -1283,7 +1285,7 @@ textarea.theme-pending:focus::placeholder {
 }
 .planning-name-tag:active { cursor: grabbing; }
 .planning-table td.drag-over {
-  background: rgba(109,206,170,.10) !important;
+  background: color-mix(in srgb, var(--accent) 10%, transparent) !important;
   outline: 2px dashed var(--accent);
   outline-offset: -3px;
 }
@@ -1458,7 +1460,7 @@ textarea.theme-pending:focus::placeholder {
   --agenda-block-color: #ffff00;
   --block-color: var(--agenda-block-color);
   border-radius: var(--rad-sm);
-  background: color-mix(in srgb, var(--block-color, var(--accent)) 22%, transparent);
+  background: color-mix(in srgb, var(--block-color) 25%, transparent);
   border-left: 3px dashed var(--block-color, var(--accent));
   border-top: 3px dashed var(--block-color);
   padding: 3px 6px 3px 5px;
@@ -1486,7 +1488,7 @@ textarea.theme-pending:focus::placeholder {
 }
 .agenda-block.is-uniq {
   --agenda-block-color: var(--slot-uniq-color);
-  background: color-mix(in srgb, var(--block-color, var(--accent)) 14%, transparent);
+  background: color-mix(in srgb, var(--slot-uniq-color) 25%, transparent);
 }
 .agenda-block.is-long { justify-content: center; }
 
@@ -1500,13 +1502,13 @@ textarea.theme-pending:focus::placeholder {
   --legend-color: #ffff00;
   display: inline-block; width: 30px; height: 20px;
   border-radius: var(--rad-sm);
-  background: color-mix(in srgb, var(--legend-color) 22%, transparent);
+  background: color-mix(in srgb, var(--legend-color) 25%, transparent);
   border-left: 3px dashed var(--legend-color);
   border-top: 3px dashed var(--legend-color);
 }
 .agenda-legend-swatch.is-uniq {
   --legend-color: var(--slot-uniq-color);
-  background: color-mix(in srgb, var(--legend-color) 14%, transparent);
+  background: color-mix(in srgb, var(--legend-color) 25%, transparent);
 }
 .agenda-block.is-warn {
   background: color-mix(in srgb, #e8a45a 28%, transparent);

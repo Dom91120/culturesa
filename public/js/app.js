@@ -5002,7 +5002,7 @@ function _rgpdOpenConfirmModal(ids, opts) {
   const warnTonePalette = {
     'danger': { border: 'var(--danger)', bg: 'rgba(224,107,107,.08)' },
     'warn':   { border: 'var(--warn)',   bg: 'rgba(232,164,90,.08)' },
-    'info':   { border: 'var(--accent)', bg: 'rgba(109,206,170,.08)' },
+    'info':   { border: 'var(--accent)', bg: 'color-mix(in srgb, var(--accent) 8%, transparent)' },
   };
   const warnColors = warnTonePalette[opts.warnTone] || warnTonePalette.danger;
   const warnEl = document.getElementById('rgpd-confirm-warning');
@@ -5470,7 +5470,7 @@ async function removeService(svcId) {
 
 // ── Badges colorés ───────────────────────────────────────
 // border / accent utilisent var(--accent) pour s'adapter automatiquement au thème :
-//   dark  → #6dceaa (vert menthe)
+//   dark  → #2caf7f (vert émeraude)
 //   light → #5ab544 (vert vif)
 const BADGE_COLOR_VALIDATED  = { bg:'#c8e8d4', border:'var(--accent)',         accent:'var(--accent)'    };
 const BADGE_COLOR_PENDING    = { bg:'#f3dfbb', border:'rgba(232,164,90,.45)', accent:'rgb(232,164,90)'  };
@@ -5490,7 +5490,7 @@ function _clearGaugeCaps() {
 // - Mode 'liste' avec thèmes définis pour ce service → select (menu déroulant compact)
 // Le caller doit toujours appendChild() le résultat et peut compléter dataset.slotId/dayKey.
 function _createUserThemeInput(myBk, validated, blocked, spotsClass) {
-  // var(--accent) → #6dceaa en dark / #5ab544 en light (cohérent avec .spots-ok).
+  // var(--accent) → #2caf7f en dark / #5ab544 en light (cohérent avec .spots-ok).
   const themeColor = validated ? 'var(--accent)' : 'rgb(232,164,90)';
   const isListe    = _currentServiceThemesMode === 'liste' && _currentServiceThemesList.length > 0;
   const curTheme   = (myBk && myBk.themeLabel) || '';
@@ -5539,7 +5539,7 @@ function _createUserThemeInput(myBk, validated, blocked, spotsClass) {
       menu = document.createElement('div');
       menu.className = 'user-theme-picker-menu';
       const r = wrap.getBoundingClientRect();
-      const hoverBg = validated ? 'rgba(109,206,170,.18)' : 'rgba(232,164,90,.18)';
+      const hoverBg = validated ? 'color-mix(in srgb, var(--accent) 18%, transparent)' : 'rgba(232,164,90,.18)';
       menu.style.cssText = `position:fixed;top:${r.bottom+2}px;left:${r.left}px;min-width:${Math.max(r.width,80)}px;background:var(--surface);border:1px solid ${themeColor};border-radius:3px;font-size:.62rem;color:var(--text);z-index:10000;max-height:200px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.3);padding:1px 0`;
       const items = [''].concat(list);
       items.forEach(label => {
@@ -5646,7 +5646,7 @@ function _createGaugeBadge(myBk, validated, free, blocked = false) {
 
   const CAPPED_STYLE  = 'background:whitesmoke;border-radius:var(--rad-sm);';
   const COLOR_CAPPED  = 'var(--danger)';
-  // var(--accent) → #6dceaa en dark / #5ab544 en light (cohérent avec .spots-ok).
+  // var(--accent) → #2caf7f en dark / #5ab544 en light (cohérent avec .spots-ok).
   const color         = validated ? 'var(--accent)' : 'rgb(232,164,90)';
   const colorEnfVal   = enfCapped ? COLOR_CAPPED : color;
   const colorAccVal   = accCapped ? COLOR_CAPPED : color;
@@ -8660,7 +8660,7 @@ function printPlanning() {
       .legend-dot   { display: inline-block; width: 11px; height: 11px; border-radius: 3px; }
       .indic_r,.indic_v,.indic_e,.indic_p,.indic_a { display:inline-block;font-size:7px;font-weight:800;color:#fff;border-radius:3px;padding:1px 3px;line-height:1.3;white-space:nowrap;-webkit-print-color-adjust:exact;print-color-adjust:exact; }
       .indic_r { background:rgba(120,120,120,.75); }
-      .indic_v { background:${printBW ? 'rgba(15,15,15,.9)' : 'rgba(109,206,170,.9)'}; }
+      .indic_v { background:${printBW ? 'rgba(15,15,15,.9)' : 'rgba(44,175,127,.9)'}; }
       .indic_e { background:${printBW ? 'rgba(195,195,195,.95)' : 'rgba(232,164,90,.9)'}; ${printBW ? 'color:#222;' : ''} }
       .indic_p { background:${printBW ? 'rgba(40,40,40,.9)' : 'rgba(30,120,80,.9)'}; }
       .indic_a { background:${printBW ? 'rgba(110,110,110,.85)' : 'rgba(220,80,80,.9)'}; }
