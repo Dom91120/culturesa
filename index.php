@@ -16,7 +16,7 @@
   <div class="logo hidden" id="header-logo">
     Cultu<em>Résa</em>
   </div>
-  <div class="tagline hidden" id="header-tagline">Réseau d'activités culturelles</div>
+  <div class="tagline hidden" id="header-tagline">Réservation d'activités culturelles</div>
 
   <div class="user-bar hidden" id="user-bar">
     <div class="user-pill-wrap">
@@ -46,7 +46,7 @@
     <button id="sidebar-toggle" onclick="toggleServiceSidebar()" title="Réduire / agrandir">☰</button>
     <div class="sidebar-header">
       <div class="sidebar-title" style="font-size:1rem;font-weight:bolder;color:var(--text)"><span class="sidebar-title-resa">Cultu</span><em style="color:var(--accent);font-style:italic">Résa</em></div>
-      <div class="sidebar-tagline">Réseau d'activités culturelles</div>
+      <div class="sidebar-tagline">Réservation d'activités culturelles</div>
     </div>
     <div class="sidebar-label" style="font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:.5rem .75rem .4rem">Services</div>
     <div id="service-sidebar"></div>
